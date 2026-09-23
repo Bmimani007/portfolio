@@ -29,22 +29,21 @@ window.CONTENT = {
 
   /* ---------- 01 · MBA ---------- */
   mba: {
-    institute: "IMT Hyderabad",
-    programme: "PGDM",
-    specialisation: "Marketing",
-    cgpa: "9.25",
-    batch: "2025–27",
-    summary: "Versatile individual with strong problem solving skills and hands on experience in business development",
+    institute: "[Institute name]",
+    programme: "[Programme — e.g. PGDM]",
+    specialisation: "[Your specialisation]",
+    cgpa: "[CGPA]",
+    batch: "[Batch — e.g. 2025–27]",
+    summary: "[Two or three lines about your MBA — what you focused on, what you enjoyed, what you are building towards.]",
   },
 
   /* ---------- 02 · SUMMER INTERNSHIP ---------- */
   internship: {
     company: "Tata Steel",
-    role: "SPA intern",
-    duration: "Apr–Jun 20",
+    role: "[Your role / title]",
+    duration: "[Duration — e.g. Apr–Jun 2026]",
     project: "HRC Price Intelligence",
-    summary: "Analysis of Global Steel Price Dynamics and Inter-Nation Interdependence along with 
-Investigation of Key Variables Influencing International Steel Market Price Movements",
+    summary: "[Describe the project in two or three lines: the problem, what you built, the result.]",
     highlights: [],                                 // optional bullet points, e.g. ["Built a live dashboard", "..."]
     deck: { folder: "assets/decks/tata-steel", count: 14 },
     dashboard: "https://hrcpipeline-tata-bharat.streamlit.app/",
@@ -52,14 +51,14 @@ Investigation of Key Variables Influencing International Steel Market Price Move
 
   /* ---------- 03 · WORK EXPERIENCE ---------- */
   workex: {
-    company: "SKPPL",
+    company: "[Company name]",
     industry: "Printing & Packaging",
     role: "Designer & Business Development Trainee",
-    duration: "2022–2025",
-    summary: "Worked across sales, customer relationship management, design, and digital initiatives at SKPPL, contributing to ₹1.5L+ in sales while improving operational efficiency through automation.",
+    duration: "[Duration — e.g. 2022–2025]",
+    summary: "[Two or three lines about what you did and the impact you made.]",
     highlights: [
-      "Business & Customer Understanding",
-      "Technology & Efficiency",
+      "[Highlight 1]",
+      "[Highlight 2]",
     ],
     // Work samples: add image paths here when ready, e.g. "assets/work/1.webp",
     // The gallery stays hidden while this list is empty.
