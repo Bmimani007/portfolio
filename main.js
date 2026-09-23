@@ -69,11 +69,10 @@
     b.innerHTML =
       '<span class="deck-img"><img src="' + esc(c.folder) + '/cover.' + esc(c.ext || "webp") + '" alt="Cover: ' + esc(c.title) + '" loading="lazy"></span>' +
       '<span class="case-info">' +
-        '<span class="case-idx">CASE_' + String(i + 1).padStart(2, "0") + "</span>" +
         '<span class="case-title">' + txt(c.title) + "</span>" +
         '<span class="case-org">' + txt(c.org) + "</span>" +
         '<span class="case-foot">' + (c.result ? '<span class="result">' + esc(c.result) + "</span>" : "") +
-          "<span>View deck · " + c.count + " slides</span><span class=\"arrow\" aria-hidden=\"true\">↗</span></span>" +
+          "<span>View deck</span><span class=\"arrow\" aria-hidden=\"true\">↗</span></span>" +
       "</span>";
     b.addEventListener("click", function () { openViewer(c.title + " — " + c.org, slidesOf(c.folder, c.count, c.ext), 0); });
     cg.appendChild(b);
@@ -99,7 +98,7 @@
     var b = el("button", "cert pre-able"); b.type = "button";
     b.innerHTML = '<span class="cert-img"><img src="' + esc(c.image) + '" alt="Certificate: ' + esc(c.title) + '" loading="lazy"></span>' +
       '<span class="cert-info"><span class="cert-title">' + txt(c.title) + "</span>" +
-      '<span class="cert-meta"><span>' + esc(c.issuer) + (c.date ? " · " + esc(c.date) : "") + "</span>" + (c.verify ? '<span class="ok">✓ Verified</span>' : "") + "</span></span>";
+      '<span class="cert-meta"><span>' + esc(c.issuer) + (c.date ? " · " + esc(c.date) : "") + "</span>" + "</span></span>";
     b.addEventListener("click", function () { openViewer("Certifications", certs.map(function (x) { return x.image; }), i, certs.map(function (x) { return x.verify; })); });
     ce.appendChild(b);
   });
