@@ -29,11 +29,11 @@ window.CONTENT = {
 
   /* ---------- 01 · MBA ---------- */
   mba: {
-    institute: "[Institute name]",
-    programme: "[Programme — e.g. PGDM]",
-    specialisation: "[Your specialisation]",
-    cgpa: "[CGPA]",
-    batch: "[Batch — e.g. 2025–27]",
+    institute: "IMT Hyderabad",
+    programme: "PGDM",
+    specialisation: "Marketing",
+    cgpa: "9.25",
+    batch: "2025–27",
     summary: "[Two or three lines about your MBA — what you focused on, what you enjoyed, what you are building towards.]",
   },
 
