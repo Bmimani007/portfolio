@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!--HEAD-START-->
+<title>Bharat Mimani</title>
+<meta name="description" content="Bharat Mimani — MBA portfolio: Tata Steel summer internship, case competitions, work experience, clubs and certifications.">
+<meta property="og:title" content="Bharat Mimani — Portfolio">
+<meta property="og:description" content="MBA portfolio: Tata Steel internship, case competitions, work experience and more.">
+<meta property="og:image" content="https://bharatmimani.vercel.app/assets/og.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0D0C0C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23D7362A'/%3E%3Ctext x='32' y='44' font-family='Impact,Arial Black,sans-serif' font-size='34' text-anchor='middle' fill='%23F1EBE1'%3EBM%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="assets/fonts/anton-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="style.css">
+<!--HEAD-END-->
+</head>
+<body>
+<!--BODY-START-->
+<a class="skip" href="#main">Skip to content</a>
+<div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-ring"></span></div>
+
+<header class="nav" id="nav">
+  <a class="nav-logo" href="#top" aria-label="Back to top"><img src="assets/img/signature.webp" alt="Bharat Mimani signature" width="600" height="152"></a>
+  <nav class="nav-links" id="navLinks" aria-label="Sections">
+    <a href="#mba">MBA</a>
+    <a href="#internship">Internship</a>
+    <a href="#work">Work</a>
+    <a href="#cases">Cases</a>
+    <a href="#clubs">Clubs</a>
+    <a href="#certs">Certs</a>
+    <a href="#linkedin">Posts</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <a class="btn btn-sm nav-cv" data-cv href="assets/CV.pdf" target="_blank" rel="noopener">CV <span aria-hidden="true">↓</span></a>
+  <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span class="sr">Menu</span></button>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero dark" id="top">
+  <div class="hero-grid">
+    <h1 class="hero-name" aria-label="Bharat Mimani">
+      <span class="line"><span class="word" id="firstName">BHARAT</span></span>
+      <span class="line"><span class="word outline" id="lastName">MIMANI</span></span>
+    </h1>
+    <figure class="hero-figure">
+      <div class="disc"></div>
+      <svg class="asterisk a1" viewBox="0 0 100 100" aria-hidden="true"><use href="#ast"/></svg>
+      <img src="assets/img/me.webp" alt="Portrait of Bharat Mimani" width="1000" height="1663" fetchpriority="high">
+      <span class="tag tag-hero">[ HELLO_WORLD ]</span>
+    </figure>
+    <div class="hero-copy">
+      <p class="hero-tagline" id="tagline"></p>
+      <div class="hero-cta">
+        <a class="btn btn-red" data-cv href="assets/CV.pdf" target="_blank" rel="noopener">Download CV <span aria-hidden="true">↓</span></a>
+        <a class="btn btn-ghost" href="#contact">Let's connect <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="hero-social" id="heroSocial"></ul>
+    </div>
+  </div>
+  <div class="marquee" aria-label="Tools I use"><div class="marquee-track" id="marquee"></div></div>
+</section>
+
+<!-- ================= 01 MBA ================= -->
+<section class="sec light" id="mba">
+  <span class="bignum" aria-hidden="true">01</span>
+  <div class="wrap split">
+    <figure class="avatar left"><div class="disc red"></div><img src="assets/img/avatar-mba.webp" alt="Bharat's avatar in a suit" loading="lazy" width="700" height="1872"></figure>
+    <div class="sec-body">
+      <h2 class="h2 scramble">The <em>MBA</em></h2>
+      <p class="lede" id="mbaSummary"></p>
+      <dl class="facts" id="mbaFacts"></dl>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 INTERNSHIP ================= -->
+<section class="sec red-bg" id="internship">
+  <span class="bignum" aria-hidden="true">02</span>
+  <div class="wrap split reverse">
+    <figure class="avatar right"><div class="disc ink"></div><img src="assets/img/avatar-internship.webp" alt="Bharat's avatar in a blue shirt" loading="lazy" width="700" height="2511"></figure>
+    <div class="sec-body">
+      <h2 class="h2 one-line scramble">Summer <em>Internship</em></h2>
+      <div class="intern-meta">
+        <span class="chip" id="internCompany"></span>
+        <span class="chip ghost" id="internRole"></span>
+        <span class="chip ghost" id="internDuration"></span>
+      </div>
+      <h3 class="h3" id="internProject"></h3>
+      <p class="lede" id="internSummary"></p>
+      <ul class="ticks" id="internHighlights"></ul>
+      <button class="deck-card wide" id="internDeck" type="button">
+        <span class="deck-img"><img id="internCover" alt="First slide of the HRC Price Intelligence deck" loading="lazy"></span>
+        <span class="deck-cta"><span class="mono">OPEN_DECK</span><span id="internCount"></span><span class="arrow" aria-hidden="true">↗</span></span>
+      </button>
+      <div class="dash-row">
+        <a class="btn btn-ink" id="internDash" target="_blank" rel="noopener">Open live dashboard <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 WORK ================= -->
+<section class="sec dark" id="work">
+  <span class="bignum" aria-hidden="true">03</span>
+  <div class="wrap split">
+    <figure class="avatar left"><div class="disc red"></div><img src="assets/img/avatar-workex.webp" alt="Bharat's avatar working on a tablet" loading="lazy" width="700" height="984"></figure>
+    <div class="sec-body">
+      <h2 class="h2 scramble">Work <em>Experience</em></h2>
+      <div class="intern-meta">
+        <span class="chip red" id="workCompany"></span>
+        <span class="chip ghost" id="workIndustry"></span>
+        <span class="chip ghost" id="workDuration"></span>
+      </div>
+      <h3 class="h3" id="workRole"></h3>
+      <p class="lede" id="workSummary"></p>
+      <ul class="ticks" id="workHighlights"></ul>
+      <div class="gallery" id="workGallery" hidden></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 CASES ================= -->
+<section class="sec light" id="cases">
+  <span class="bignum" aria-hidden="true">04</span>
+  <div class="wrap">
+    <div class="split head-split">
+      <div class="sec-body">
+        <h2 class="h2 scramble">Case <em>Competitions</em></h2>
+        <p class="lede">Tap any cover to flip through the deck I presented.</p>
+      </div>
+      <figure class="avatar right small"><div class="disc red"></div><img src="assets/img/avatar-casecomp.webp" alt="Bharat's avatar holding a trophy" loading="lazy" width="700" height="2086"></figure>
+    </div>
+    <div class="deck-grid" id="caseGrid"></div>
+  </div>
+</section>
+
+<!-- ================= 05 CLUBS ================= -->
+<section class="sec black" id="clubs">
+  <span class="bignum" aria-hidden="true">05</span>
+  <div class="wrap">
+    <h2 class="h2 center scramble">Clubs &amp; <em>Committees</em></h2>
+    <div class="clubs">
+      <div class="club-stack" id="clubStack"></div>
+      <div class="club-labels" id="clubLabels"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 CERTS ================= -->
+<section class="sec light" id="certs">
+  <span class="bignum" aria-hidden="true">06</span>
+  <div class="wrap">
+    <h2 class="h2 scramble">Certifi<em>cations</em></h2>
+    <p class="lede">Tap a certificate to open it. Verified ones link straight to the issuer.</p>
+    <div class="cert-grid" id="certGrid"></div>
+  </div>
+</section>
+
+<!-- ================= 07 LINKEDIN ================= -->
+<section class="sec red-bg" id="linkedin">
+  <span class="bignum" aria-hidden="true">07</span>
+  <div class="wrap">
+    <div class="li-head">
+      <div>
+        <h2 class="h2 scramble">On <em>LinkedIn</em></h2>
+      </div>
+      <div class="slider-btns">
+        <button class="sbtn" id="liPrev" type="button" aria-label="Previous post">←</button>
+        <button class="sbtn" id="liNext" type="button" aria-label="Next post">→</button>
+      </div>
+    </div>
+    <div class="li-track" id="liTrack" tabindex="0" aria-label="LinkedIn posts, scroll sideways"></div>
+  </div>
+</section>
+
+<!-- ================= 08 CONTACT ================= -->
+<section class="sec dark contact" id="contact">
+  <span class="bignum" aria-hidden="true">08</span>
+  <div class="wrap">
+    <h2 class="thanks"><span>Let's</span> <em>talk</em></h2>
+    <div class="contact-grid" id="contactGrid"></div>
+  </div>
+  <footer class="footer">
+    <img src="assets/img/signature.webp" alt="" width="600" height="152" loading="lazy">
+    <p class="mono">© <span id="year"></span> Bharat Mimani</p>
+    <a class="mono totop" href="#top">Back to top ↑</a>
+  </footer>
+</section>
+
+</main>
+
+<!-- ================= VIEWER ================= -->
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="vTitle">
+  <div class="v-top">
+    <p class="mono v-title" id="vTitle"></p>
+    <p class="mono v-count" id="vCount"></p>
+    <button class="v-close" id="vClose" type="button" aria-label="Close">✕</button>
+  </div>
+  <div class="v-stage" id="vStage"><img id="vImg" alt=""></div>
+  <button class="v-nav v-prev" id="vPrev" type="button" aria-label="Previous slide">←</button>
+  <button class="v-nav v-next" id="vNext" type="button" aria-label="Next slide">→</button>
+  <div class="v-bottom"><div class="v-dots" id="vDots"></div><a class="btn btn-red btn-sm" id="vVerify" target="_blank" rel="noopener" hidden>Verify ↗</a></div>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ast" viewBox="0 0 100 100"><g fill="currentColor"><rect x="45" y="4" width="10" height="92" rx="5"/><rect x="45" y="4" width="10" height="92" rx="5" transform="rotate(45 50 50)"/><rect x="45" y="4" width="10" height="92" rx="5" transform="rotate(90 50 50)"/><rect x="45" y="4" width="10" height="92" rx="5" transform="rotate(135 50 50)"/></g></symbol>
+  </defs>
+</svg>
+
+<script src="content.js"></script>
+<script src="main.js"></script>
+<!--BODY-END-->
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
