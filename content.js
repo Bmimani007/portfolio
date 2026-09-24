@@ -55,7 +55,7 @@ window.CONTENT = {
     industry: "Printing & Packaging",
     role: "Designer & Business Development Trainee",
     duration: "2022–2025",
-    summary: "Worked across sales, customer relationship management, design, and digital initiatives, contributing to ₹1.5L+ in sales while improving operational efficiency through automation.",
+    summary: "Worked across sales, customer relationship management, design, and digital initiatives, contributing to ₹15L+ in sales while improving operational efficiency through automation.",
     highlights: [
       "Business & Customer Understanding",
       "Technology & Efficiency",
