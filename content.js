@@ -99,6 +99,6 @@ window.CONTENT = {
      A normal post link also works. Example:
        `<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7123456789012345678" height="600" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>`,
   */
-  linkedinPosts: [<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7404031587824123904?collapsed=1" height="670" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>,<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7469739576736243712?collapsed=1" height="549" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+  linkedinPosts: [
   ],
 };
