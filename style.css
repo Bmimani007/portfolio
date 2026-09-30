@@ -217,9 +217,13 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:90;opa
 .sbtn:disabled{opacity:.3;pointer-events:none}
 .li-track{display:flex;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 4px 28px;scrollbar-width:thin;scrollbar-color:var(--cream) transparent;overscroll-behavior-x:contain}
 .li-track:focus-visible{outline-color:var(--cream)}
-.li-card{flex:0 0 min(504px,86vw);scroll-snap-align:start;background:#fff;border-radius:8px;overflow:hidden;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
-.li-card iframe{display:block;width:100%;border:0;background:#fff}
-.li-follow{flex:0 0 min(420px,86vw);scroll-snap-align:start;background:var(--ink);color:var(--cream);border-radius:8px;padding:34px 30px;display:flex;flex-direction:column;gap:18px;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--cream);min-height:340px}
+.li-card{--s:.73;position:relative;flex:0 0 min(360px,80vw);height:470px;scroll-snap-align:start;background:#fff;border-radius:8px;overflow:hidden;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink)}
+.li-scale{width:504px;transform:scale(var(--s));transform-origin:top left}
+.li-card iframe{display:block;width:504px;border:0;background:#fff}
+.li-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(transparent,#fff 70%);pointer-events:none}
+.li-open{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:2;white-space:nowrap;background:var(--ink);color:var(--cream);text-decoration:none;font:600 11px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;padding:11px 16px;border-radius:999px;transition:background .2s}
+.li-open:hover{background:var(--red)}
+.li-follow{flex:0 0 min(360px,80vw);height:470px;scroll-snap-align:start;background:var(--ink);color:var(--cream);border-radius:8px;padding:34px 30px;display:flex;flex-direction:column;gap:18px;border:2px solid var(--ink);box-shadow:8px 8px 0 var(--cream);min-height:340px}
 .li-follow .li-in{width:56px;height:56px;border-radius:10px;background:var(--cream);color:var(--ink);display:grid;place-items:center;font:700 24px/1 var(--f-body)}
 .li-follow h3{font:400 clamp(30px,3.4vw,42px)/1 var(--f-display);text-transform:uppercase;margin:0}
 .li-follow h3 em{font-family:var(--f-marker);text-transform:none;color:var(--red-hi);font-size:.8em}

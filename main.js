@@ -122,9 +122,16 @@
   (C.linkedinPosts || []).forEach(function (p, i) {
     var e = toEmbed(p); if (!e) return;
     var card = el("div", "li-card");
-    card.innerHTML = '<iframe src="' + esc(e.src) + '" height="' + e.h + '" title="LinkedIn post ' + (i + 1) + '" loading="lazy" allowfullscreen></iframe>';
+    var postUrl = e.src.replace("/embed/feed/update/", "/feed/update/").replace(/\?.*$/, "");
+    card.innerHTML = '<div class="li-scale"><iframe src="' + esc(e.src) + '" height="' + e.h + '" title="LinkedIn post ' + (i + 1) + '" loading="lazy" allowfullscreen></iframe></div>' +
+      '<a class="li-open" href="' + esc(postUrl) + '" target="_blank" rel="noopener">Read full post ↗</a>';
     track.appendChild(card);
   });
+  // shrink each 504px-wide LinkedIn embed to fit the smaller card
+  var fitPosts = function () {
+    track.querySelectorAll(".li-card").forEach(function (c) { c.style.setProperty("--s", (c.clientWidth / 504).toFixed(4)); });
+  };
+  fitPosts(); window.addEventListener("resize", fitPosts);
   var follow = el("div", "li-follow");
   follow.innerHTML = '<span class="li-in" aria-hidden="true">in</span><h3>Follow my <em>journey</em></h3>' +
     "<p>Case wins, internship learnings and what I'm building next — posted on LinkedIn.</p>" +
