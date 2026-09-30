@@ -99,7 +99,8 @@ window.CONTENT = {
      A normal post link also works. Example:
        `<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7123456789012345678" height="600" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>`,
   */
-  linkedinPosts: ['<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7475401594663026688?collapsed=1" height="895" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
+  linkedinPosts: ['iframe src="https://www.linkedin.com/posts/bharat-mimani-03b239250_findyourlevel-productmanagement-brandstrategy-activity-7472186834517778433--tpz?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD34h-8BeUaRkUPtIEDLEZrhXTWMC_JP9tg"></iframe>',
+  '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7475401594663026688?collapsed=1" height="895" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7493921736615403520?collapsed=1" height="670" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   ],
 };
