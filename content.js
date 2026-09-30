@@ -16,7 +16,7 @@ window.CONTENT = {
   profile: {
     firstName: "Bharat",
     lastName: "Mimani",
-    tagline: "An aspiring professional with a strong interest in business and strategy. Passionate about analysing real-world problems, building insights, and continuously learning.",
+    tagline: "An aspiring professional with a strong interest in business and strategy. Passionate about product management, with a keen interest in solving real world problems through thoughtful product thinking.",
     email: "bharatmimani@imthyderabad.edu.in",
     linkedin: "https://www.linkedin.com/in/bharat-mimani-03b239250/",
     whatsapp: "918240073060",                       // country code + number, no + or spaces
@@ -44,7 +44,7 @@ window.CONTENT = {
     duration: "Apr–Jun 2026",
     project: "HRC Price Intelligence",
     summary: "Analysis of Global Steel Price Dynamics and Inter-Nation Interdependence along with Investigation of Key Variables Influencing International Steel Market Price Movements",
-    highlights: [],                                 // optional bullet points, e.g. ["Built a live dashboard", "..."]
+    highlights: ["Identified the issues currently faced by the pricing department through primary and secondary research", "Produced a self updating live dashboard with relevant KPIs to analyse steel price movements"],                                 // optional bullet points, e.g. ["Built a live dashboard", "..."]
     deck: { folder: "assets/decks/tata-steel", count: 14 },
     dashboard: "https://hrcpipeline-tata-bharat.streamlit.app/",
   },
