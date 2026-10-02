@@ -207,13 +207,16 @@
       <aside class="pm-brief" id="pmBrief"></aside>
       <div class="pm-deck">
         <div class="pm-stage" id="pmStage">
-          <canvas id="pmCanvas" aria-label="Project deck slide"></canvas>
+          <div class="pm-pages" id="pmPages"></div>
           <p class="pm-msg mono" id="pmMsg">Loading deck…</p>
         </div>
         <div class="pm-ctrl">
-          <button class="pm-btn" id="pmPrev" type="button" aria-label="Previous slide">←</button>
           <span class="mono pm-count" id="pmCount">— / —</span>
-          <button class="pm-btn" id="pmNext" type="button" aria-label="Next slide">→</button>
+          <div class="pm-zoom">
+            <button class="pm-btn" id="pmZoomOut" type="button" aria-label="Zoom out">−</button>
+            <button class="pm-zlabel mono" id="pmZoomReset" type="button" aria-label="Reset zoom">100%</button>
+            <button class="pm-btn" id="pmZoomIn" type="button" aria-label="Zoom in">+</button>
+          </div>
           <button class="pm-btn pm-full" id="pmFull" type="button" aria-label="Full screen">⛶</button>
         </div>
       </div>

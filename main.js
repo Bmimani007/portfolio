@@ -214,10 +214,10 @@
   $("#vStage").addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
   $("#vStage").addEventListener("touchend", function (e) { if (tx == null) return; var dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 45) show(vIdx + (dx < 0 ? 1 : -1)); tx = null; });
 
-  /* ---------- PROJECT POPUP: brief on the left, PDF deck on the right ---------- */
-  var PM = $("#pm"), pmPanel = PM.querySelector(".pm-panel"), pmCanvas = $("#pmCanvas"), pmStage = $("#pmStage"), pmMsg = $("#pmMsg"), pmCount = $("#pmCount");
-  var pdfDoc = null, pdfPage = 1, pdfUrl = "", renderTask = null, pmLast = null, pdfCache = {}, pdfLibPromise = null;
-  var PDFJS = "assets/vendor/pdfjs/";
+  /* ---------- PROJECT POPUP: brief on the left, PDF deck on the right (scrolling pages + zoom) ---------- */
+  var PM = $("#pm"), pmPanel = PM.querySelector(".pm-panel"), pmStage = $("#pmStage"), pmPages = $("#pmPages"), pmMsg = $("#pmMsg"), pmCount = $("#pmCount");
+  var pdfDoc = null, pdfUrl = "", pmLast = null, pdfCache = {}, pdfLibPromise = null, pages = [], zoom = 1, pageObs = null, layoutW = 0;
+  var PDFJS = "assets/vendor/pdfjs/", ZMIN = 1, ZMAX = 4;
   function loadPdfLib() {
     if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
     if (pdfLibPromise) return pdfLibPromise;
@@ -238,7 +238,7 @@
   function setTab(t) {
     pmPanel.setAttribute("data-tab", t);
     $("#pmTabBrief").classList.toggle("on", t === "brief"); $("#pmTabDeck").classList.toggle("on", t === "deck");
-    if (t === "deck") renderPage();
+    if (t === "deck") requestAnimationFrame(layout);
   }
   function openProject(p) {
     pmLast = document.activeElement;
@@ -249,9 +249,9 @@
     setTab("brief");
     if (p.id && history.replaceState) history.replaceState(null, "", "#p-" + p.id);
     $("#pmClose").focus();
-    pdfDoc = null; pdfPage = 1; pdfUrl = p.pdf || "";
-    var ctx = pmCanvas.getContext("2d"); ctx.clearRect(0, 0, pmCanvas.width, pmCanvas.height); pmCanvas.style.visibility = "hidden";
-    pmCount.textContent = "— / —"; pmMsg.hidden = false;
+    pdfDoc = null; pages = []; zoom = 1; layoutW = 0; pmPages.innerHTML = ""; pmStage.scrollTop = 0; pmStage.scrollLeft = 0;
+    updZoomLabel(); pmCount.textContent = "— / —"; pmMsg.hidden = false;
+    pdfUrl = p.pdf || "";
     if (!pdfUrl) { pmMsg.textContent = "Deck coming soon."; return; }
     if (location.protocol === "file:") { pmMsg.textContent = "The deck shows on the live site (browsers block PDFs opened straight from a file on your computer)."; return; }
     pmMsg.textContent = "Loading deck…";
@@ -260,35 +260,101 @@
       return pdfCache[want] || (pdfCache[want] = lib.getDocument({ url: want }).promise);
     }).then(function (doc) {
       if (want !== pdfUrl || PM.hidden) return;
-      pdfDoc = doc; pmMsg.hidden = true; renderPage();
+      pdfDoc = doc; return buildPages(doc, want);
     }).catch(function () { delete pdfCache[want]; pmMsg.textContent = "Couldn't load the deck. Please refresh and try again."; });
   }
-  function renderPage() {
-    if (!pdfDoc || PM.hidden) return;
-    var w = pmStage.clientWidth - 24, h = pmStage.clientHeight - 24;
-    if (w < 40 || h < 40) return; // panel hidden (phone, brief tab)
-    pdfPage = Math.max(1, Math.min(pdfDoc.numPages, pdfPage));
-    pmCount.textContent = String(pdfPage).padStart(2, "0") + " / " + String(pdfDoc.numPages).padStart(2, "0");
-    $("#pmPrev").disabled = pdfPage === 1; $("#pmNext").disabled = pdfPage === pdfDoc.numPages;
-    var n = pdfPage;
-    pdfDoc.getPage(n).then(function (page) {
-      if (n !== pdfPage) return;
-      var base = page.getViewport({ scale: 1 });
-      var scale = Math.min(w / base.width, h / base.height);
-      var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
-      var vp = page.getViewport({ scale: scale * dpr });
-      if (renderTask) { try { renderTask.cancel(); } catch (_) {} }
-      var off = document.createElement("canvas"); off.width = Math.floor(vp.width); off.height = Math.floor(vp.height);
-      renderTask = page.render({ canvasContext: off.getContext("2d"), viewport: vp });
-      renderTask.promise.then(function () {
-        if (n !== pdfPage) return;
-        pmCanvas.width = off.width; pmCanvas.height = off.height;
-        pmCanvas.style.width = Math.floor(base.width * scale) + "px"; pmCanvas.style.height = Math.floor(base.height * scale) + "px";
-        pmCanvas.getContext("2d").drawImage(off, 0, 0); pmCanvas.style.visibility = "visible";
-      }).catch(function () {});
+  function buildPages(doc, want) {
+    var jobs = []; for (var i = 1; i <= doc.numPages; i++) jobs.push(doc.getPage(i));
+    return Promise.all(jobs).then(function (list) {
+      if (want !== pdfUrl) return;
+      pages = list.map(function (pg, i) {
+        var vp = pg.getViewport({ scale: 1 });
+        var box = el("div", "pm-page"); box.setAttribute("data-n", i + 1);
+        var cv = document.createElement("canvas"); box.appendChild(cv); pmPages.appendChild(box);
+        return { pg: pg, w: vp.width, h: vp.height, box: box, cv: cv, done: 0, task: null };
+      });
+      pmMsg.hidden = true;
+      if (pageObs) pageObs.disconnect();
+      pageObs = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) draw(pages[+en.target.getAttribute("data-n") - 1]); }); }, { root: pmStage, rootMargin: "700px 0px" });
+      pages.forEach(function (o) { pageObs.observe(o.box); });
+      layout(); updCount();
     });
   }
-  function go(d) { if (!pdfDoc) return; var t = pdfPage + d; if (t < 1 || t > pdfDoc.numPages) return; pdfPage = t; renderPage(); }
+  function fitW() { return Math.max(120, pmStage.clientWidth - 32); }
+  function layout() {
+    if (!pages.length || PM.hidden || pmStage.clientWidth < 40) return;
+    layoutW = fitW();
+    pages.forEach(function (o) {
+      var w = Math.round(layoutW * zoom), h = Math.round(w * o.h / o.w);
+      o.box.style.width = w + "px"; o.box.style.height = h + "px"; o.done = 0;
+    });
+    pages.forEach(function (o) { var r = o.box.getBoundingClientRect(), s = pmStage.getBoundingClientRect(); if (r.bottom > s.top - 700 && r.top < s.bottom + 700) draw(o); });
+    updCount();
+  }
+  function draw(o) {
+    if (!o || !layoutW) return;
+    var cssW = Math.round(layoutW * zoom), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var target = Math.min(cssW * dpr, 4096); // pixel width, capped for memory
+    if (o.done === target) return;
+    o.done = target;
+    var vp = o.pg.getViewport({ scale: target / o.w });
+    if (o.task) { try { o.task.cancel(); } catch (_) {} }
+    var off = document.createElement("canvas"); off.width = Math.floor(vp.width); off.height = Math.floor(vp.height);
+    o.task = o.pg.render({ canvasContext: off.getContext("2d"), viewport: vp });
+    o.task.promise.then(function () {
+      if (o.done !== target) return;
+      o.cv.width = off.width; o.cv.height = off.height; o.cv.getContext("2d").drawImage(off, 0, 0);
+    }).catch(function () {});
+  }
+  function updCount() {
+    if (!pages.length || !layoutW) return;
+    var s = pmStage.getBoundingClientRect(), mark = s.top + s.height * 0.35, cur = 1;
+    pages.forEach(function (o, i) { if (o.box.getBoundingClientRect().top <= mark) cur = i + 1; });
+    if (pmStage.scrollTop + pmStage.clientHeight >= pmStage.scrollHeight - 2) cur = pages.length;
+    pmCount.textContent = String(cur).padStart(2, "0") + " / " + String(pages.length).padStart(2, "0");
+  }
+  pmStage.addEventListener("scroll", updCount, { passive: true });
+  function updZoomLabel() { $("#pmZoomReset").textContent = Math.round(zoom * 100) + "%"; $("#pmZoomOut").disabled = zoom <= ZMIN; $("#pmZoomIn").disabled = zoom >= ZMAX; }
+  // change zoom while keeping the point under (cx, cy) in place
+  function setZoom(z, cx, cy) {
+    z = Math.max(ZMIN, Math.min(ZMAX, z)); if (!pages.length || Math.abs(z - zoom) < 0.001) { updZoomLabel(); return; }
+    var r = pmStage.getBoundingClientRect();
+    if (cx == null) { cx = r.width / 2; cy = r.height / 2; }
+    var px = pmStage.scrollLeft + cx, py = pmStage.scrollTop + cy, k = z / zoom;
+    zoom = z; layout();
+    pmStage.scrollLeft = px * k - cx; pmStage.scrollTop = py * k - cy;
+    updZoomLabel(); updCount();
+  }
+  $("#pmZoomIn").addEventListener("click", function () { setZoom(zoom + 0.5); });
+  $("#pmZoomOut").addEventListener("click", function () { setZoom(zoom - 0.5); });
+  $("#pmZoomReset").addEventListener("click", function () { setZoom(1); });
+  // trackpad pinch / Ctrl + scroll on laptops
+  pmStage.addEventListener("wheel", function (e) {
+    if (!e.ctrlKey) return; e.preventDefault();
+    var r = pmStage.getBoundingClientRect(); setZoom(zoom * Math.exp(-e.deltaY / 200), e.clientX - r.left, e.clientY - r.top);
+  }, { passive: false });
+  // two-finger pinch on phones
+  var pinch = null;
+  function tdist(t) { var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY; return Math.sqrt(dx * dx + dy * dy); }
+  pmStage.addEventListener("touchstart", function (e) {
+    if (e.touches.length !== 2 || !pages.length) return;
+    var r = pmStage.getBoundingClientRect();
+    pinch = { d0: tdist(e.touches), z0: zoom, s: 1, cx: (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left, cy: (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top };
+    pmPages.style.transformOrigin = (pmStage.scrollLeft + pinch.cx) + "px " + (pmStage.scrollTop + pinch.cy) + "px";
+  }, { passive: true });
+  pmStage.addEventListener("touchmove", function (e) {
+    if (!pinch || e.touches.length !== 2) return; e.preventDefault();
+    var s = tdist(e.touches) / pinch.d0, z = Math.max(ZMIN, Math.min(ZMAX, pinch.z0 * s));
+    pinch.s = z / pinch.z0; pmPages.style.transform = "scale(" + pinch.s + ")";
+  }, { passive: false });
+  function endPinch() {
+    if (!pinch) return; var p = pinch; pinch = null;
+    pmPages.style.transform = ""; setZoom(p.z0 * p.s, p.cx, p.cy);
+  }
+  pmStage.addEventListener("touchend", function (e) { if (e.touches.length < 2) endPinch(); });
+  pmStage.addEventListener("touchcancel", endPinch);
+  // double-tap / double-click to zoom in and out
+  pmStage.addEventListener("dblclick", function (e) { var r = pmStage.getBoundingClientRect(); setZoom(zoom > 1 ? 1 : 2, e.clientX - r.left, e.clientY - r.top); });
   function closeProject() {
     PM.hidden = true; document.body.classList.remove("lock");
     if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (_) {} }
@@ -297,8 +363,6 @@
   }
   $("#pmClose").addEventListener("click", closeProject);
   PM.addEventListener("click", function (e) { if (e.target === PM) closeProject(); });
-  $("#pmPrev").addEventListener("click", function () { go(-1); });
-  $("#pmNext").addEventListener("click", function () { go(1); });
   $("#pmTabBrief").addEventListener("click", function () { setTab("brief"); });
   $("#pmTabDeck").addEventListener("click", function () { setTab("deck"); });
   $("#pmFull").addEventListener("click", function () {
@@ -306,19 +370,24 @@
     if (document.fullscreenElement) document.exitFullscreen();
     else if (d.requestFullscreen) d.requestFullscreen().catch(function () {});
   });
-  document.addEventListener("fullscreenchange", function () { setTimeout(renderPage, 60); });
-  var rz = null; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(renderPage, 120); });
+  document.addEventListener("fullscreenchange", function () { setTimeout(layout, 80); });
+  var rz = null; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { if (fitW() !== layoutW) layout(); }, 150); });
   // view-only: no right-click / save on the slides
   pmStage.addEventListener("contextmenu", function (e) { e.preventDefault(); });
-  pmCanvas.addEventListener("dragstart", function (e) { e.preventDefault(); });
-  var ptx = null;
-  pmStage.addEventListener("touchstart", function (e) { ptx = e.touches[0].clientX; }, { passive: true });
-  pmStage.addEventListener("touchend", function (e) { if (ptx == null) return; var dx = e.changedTouches[0].clientX - ptx; if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1); ptx = null; });
+  pmStage.addEventListener("dragstart", function (e) { e.preventDefault(); });
+  function pageJump(d) {
+    if (!pages.length) return; var s = pmStage.getBoundingClientRect(), mid = s.top + 10, cur = 0;
+    pages.forEach(function (o, i) { if (o.box.getBoundingClientRect().top <= mid) cur = i; });
+    var t = pages[Math.max(0, Math.min(pages.length - 1, cur + d))];
+    pmStage.scrollTo({ top: t.box.offsetTop - 16, behavior: reduce ? "auto" : "smooth" });
+  }
   document.addEventListener("keydown", function (e) {
     if (PM.hidden) return;
     if (e.key === "Escape" && !document.fullscreenElement) closeProject();
-    else if (e.key === "ArrowRight") go(1);
-    else if (e.key === "ArrowLeft") go(-1);
+    else if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); pageJump(1); }
+    else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); pageJump(-1); }
+    else if ((e.key === "+" || e.key === "=") && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setZoom(zoom + 0.5); }
+    else if (e.key === "-" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setZoom(zoom - 0.5); }
     else if (e.key === "Tab") {
       var f = Array.prototype.filter.call(PM.querySelectorAll("button:not([disabled]),a[href]"), function (x) { return x.offsetParent !== null; }); if (!f.length) return;
       if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
