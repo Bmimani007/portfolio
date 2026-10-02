@@ -356,8 +356,8 @@
   // double-tap / double-click to zoom in and out
   pmStage.addEventListener("dblclick", function (e) { var r = pmStage.getBoundingClientRect(); setZoom(zoom > 1 ? 1 : 2, e.clientX - r.left, e.clientY - r.top); });
   function closeProject() {
+    if (PM.classList.contains("pm-max")) setMax(false);
     PM.hidden = true; document.body.classList.remove("lock");
-    if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (_) {} }
     if (/^#p-/.test(location.hash) && history.replaceState) history.replaceState(null, "", location.pathname + location.search);
     if (pmLast) pmLast.focus();
   }
@@ -365,12 +365,17 @@
   PM.addEventListener("click", function (e) { if (e.target === PM) closeProject(); });
   $("#pmTabBrief").addEventListener("click", function () { setTab("brief"); });
   $("#pmTabDeck").addEventListener("click", function () { setTab("deck"); });
-  $("#pmFull").addEventListener("click", function () {
-    var d = pmPanel.querySelector(".pm-deck");
-    if (document.fullscreenElement) document.exitFullscreen();
-    else if (d.requestFullscreen) d.requestFullscreen().catch(function () {});
-  });
-  document.addEventListener("fullscreenchange", function () { setTimeout(layout, 80); });
+  // Full screen: deck fills the whole screen (true browser fullscreen where supported, e.g. laptops/Android;
+  // on iPhone, where browsers don't allow it, the deck still expands to cover the whole page)
+  function setMax(on) {
+    PM.classList.toggle("pm-max", on);
+    var b = $("#pmFull"); b.innerHTML = on ? "⤡ <span>Exit</span>" : "⛶ <span>Full screen</span>"; b.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
+    if (on && !document.fullscreenElement && PM.requestFullscreen) PM.requestFullscreen().catch(function () {});
+    if (!on && document.fullscreenElement) { try { document.exitFullscreen(); } catch (_) {} }
+    setTimeout(layout, 80);
+  }
+  $("#pmFull").addEventListener("click", function () { setMax(!PM.classList.contains("pm-max")); });
+  document.addEventListener("fullscreenchange", function () { if (!document.fullscreenElement && PM.classList.contains("pm-max")) setMax(false); else setTimeout(layout, 80); });
   var rz = null; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { if (fitW() !== layoutW) layout(); }, 150); });
   // view-only: no right-click / save on the slides
   pmStage.addEventListener("contextmenu", function (e) { e.preventDefault(); });
@@ -383,7 +388,8 @@
   }
   document.addEventListener("keydown", function (e) {
     if (PM.hidden) return;
-    if (e.key === "Escape" && !document.fullscreenElement) closeProject();
+    if (e.key === "Escape") { if (PM.classList.contains("pm-max")) setMax(false); else closeProject(); }
+    else if (e.key === "f" || e.key === "F") setMax(!PM.classList.contains("pm-max"));
     else if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); pageJump(1); }
     else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); pageJump(-1); }
     else if ((e.key === "+" || e.key === "=") && (e.metaKey || e.ctrlKey)) { e.preventDefault(); setZoom(zoom + 0.5); }
