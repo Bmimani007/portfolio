@@ -85,20 +85,29 @@ linkedinPosts: [
 
 ---
 
-## Part E: Adding a new case competition
+## Part E: Projects (brief + PDF deck popup)
 
-1. Export the slides as images (PowerPoint: **File → Export → PNG**, All slides).
-2. Rename them **`cover.png`** (the cover image), then **`1.png`, `2.png`, `3.png`…** in slide order.
-3. Convert them to `.webp` so the site stays fast. Use **squoosh.app** (free, in your browser): drop the image in, choose **WebP**, set width to **1600** (cover: **1000**), then download.
-   *Skipping this is fine too: keep the `.png` files and add `ext: "png"` in step 5.*
-4. On your computer, put the images in a folder with a short name and no spaces, for example `newcase`. On GitHub, open **assets → decks**, click **Add file → Upload files**, drag the **whole `newcase` folder** in, and commit.
-5. In `content.js`, add one line to `caseComps`:
+Each project card opens a popup: **the brief on the left, the PDF deck on the right** (on phones: Brief / Deck tabs).
+
+**To edit a brief:** in `content.js`, find the project under `projects` and edit its `brief` list:
 ```js
-{ title: "My New Case", org: "Organiser Name", result: "Winner", folder: "assets/decks/newcase", count: 6 },
-// if you kept PNG files instead of WebP, add  ext: "png"  like this:
-{ title: "My New Case", org: "Organiser Name", result: "", folder: "assets/decks/newcase", count: 6, ext: "png" },
+brief: [
+  { heading: "The Challenge",   text: "Your text here" },
+  { heading: "Why It Mattered", text: "Your text here" },
+  { heading: "My Approach",     text: ["Bullet one", "Bullet two"] },   // a list = bullet points
+  { heading: "Outcome",         text: "Your text here" },
+],
 ```
-`count` = the number of slides (not counting the cover). `result` is optional; write `""` to hide it.
+Add a line to add a heading, delete a line to remove one. Headings can be anything.
+
+**To add a new project:**
+1. Export the deck from PowerPoint as PDF (**File → Export → PDF**), keep it under ~10 MB (ilovepdf.com to compress).
+2. Make a folder in `assets/decks/` with a short name (e.g. `newcase`) and put in it: **`deck.pdf`** and a cover image **`cover.webp`** (or `cover.png`).
+3. Copy one existing project block in `content.js` and change `id`, `title`, `org`, `cover`, `pdf` and the `brief`.
+
+Each project also has a direct link, e.g. `bharatmimani.vercel.app/#p-chings` — handy to send an interviewer straight to one project.
+
+> **Note:** when you open `index.html` straight from your computer, the deck shows a message instead of slides (browsers block PDFs from local files). It works on the live site.
 
 ---
 
@@ -109,7 +118,7 @@ linkedinPosts: [
 | Update my CV | Upload a new file named **`CV.pdf`** to the `assets` folder (it replaces the old one) |
 | Add a certificate | Upload the image to `assets/certs/` (for example `7.webp`) and add a line to `certifications` with its title, issuer, date and verify link |
 | Add work samples | Upload the images to `assets/work/` and list them in `workex → gallery`, e.g. `"assets/work/1.webp",`. The gallery appears automatically |
-| Add a result to a case comp | Change `result: ""` to `result: "Finalist"` |
+| Add a result badge to a project | Change `result: ""` to `result: "Finalist"` |
 | Change my tagline or contact | Edit the `profile` section at the top |
 | Change the dashboard link | Edit `dashboard:` in the `internship` section |
 

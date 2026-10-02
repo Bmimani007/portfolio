@@ -84,7 +84,7 @@
     <div class="split head-split">
       <div class="sec-body">
         <h2 class="h2 scramble">My <em>Projects</em></h2>
-        <p class="lede">Tap any cover to flip through the deck.</p>
+        <p class="lede">Tap a project to see the brief and flip through the deck.</p>
       </div>
     </div>
     <div class="deck-grid" id="caseGrid"></div>
@@ -108,7 +108,7 @@
       <ul class="ticks" id="internHighlights"></ul>
       <button class="deck-card wide" id="internDeck" type="button">
         <span class="deck-img"><img id="internCover" alt="First slide of the HRC Price Intelligence deck" loading="lazy"></span>
-        <span class="deck-cta"><span class="mono">OPEN_DECK</span><span id="internCount"></span><span class="arrow" aria-hidden="true">↗</span></span>
+        <span class="deck-cta"><span class="mono">OPEN_PROJECT</span><span id="internCount"></span><span class="arrow" aria-hidden="true">↗</span></span>
       </button>
       <div class="dash-row">
         <a class="btn btn-ink" id="internDash" target="_blank" rel="noopener">Open live dashboard <span aria-hidden="true">↗</span></a>
@@ -191,6 +191,35 @@
 </section>
 
 </main>
+
+<!-- ================= PROJECT POPUP (brief + PDF deck) ================= -->
+<div class="pm" id="pm" hidden role="dialog" aria-modal="true" aria-labelledby="pmTitle">
+  <div class="pm-panel" data-tab="brief">
+    <header class="pm-head">
+      <div class="pm-headtext"><p class="pm-org mono" id="pmOrg"></p><h3 class="pm-title" id="pmTitle"></h3></div>
+      <button class="pm-close" id="pmClose" type="button" aria-label="Close">✕</button>
+    </header>
+    <div class="pm-tabs" role="tablist">
+      <button class="pm-tab" id="pmTabBrief" type="button" role="tab" data-show="brief">Brief</button>
+      <button class="pm-tab" id="pmTabDeck" type="button" role="tab" data-show="deck">Deck</button>
+    </div>
+    <div class="pm-body">
+      <aside class="pm-brief" id="pmBrief"></aside>
+      <div class="pm-deck">
+        <div class="pm-stage" id="pmStage">
+          <canvas id="pmCanvas" aria-label="Project deck slide"></canvas>
+          <p class="pm-msg mono" id="pmMsg">Loading deck…</p>
+        </div>
+        <div class="pm-ctrl">
+          <button class="pm-btn" id="pmPrev" type="button" aria-label="Previous slide">←</button>
+          <span class="mono pm-count" id="pmCount">— / —</span>
+          <button class="pm-btn" id="pmNext" type="button" aria-label="Next slide">→</button>
+          <button class="pm-btn pm-full" id="pmFull" type="button" aria-label="Full screen">⛶</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- ================= VIEWER ================= -->
 <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="vTitle">

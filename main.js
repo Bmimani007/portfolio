@@ -40,10 +40,12 @@
   set("internCompany", I.company); set("internRole", I.role); set("internDuration", I.duration);
   set("internProject", I.project); set("internSummary", I.summary);
   $("#internHighlights").innerHTML = (I.highlights || []).map(function (h) { return "<li>" + txt(h) + "</li>"; }).join("");
-  if (I.deck) {
-    $("#internCover").src = I.deck.folder + "/1.webp";
-    $("#internCount").textContent = I.deck.count + " slides";
-    $("#internDeck").addEventListener("click", function () { openViewer((I.project || "Deck") + " — " + (I.company || ""), slidesOf(I.deck.folder, I.deck.count), 0); });
+  if (I.deck && I.deck.pdf) {
+    $("#internCover").src = I.deck.cover || "assets/decks/tata-steel/1.webp";
+    $("#internCount").textContent = "Brief + deck";
+    $("#internDeck").addEventListener("click", function () {
+      openProject({ id: "internship", title: I.project, org: [I.company, I.role].filter(function (x) { return x && !isPh(x); }).join(" · "), result: "", brief: I.brief, pdf: I.deck.pdf });
+    });
   } else { $("#internDeck").hidden = true; }
   if (I.dashboard) $("#internDash").href = I.dashboard; else $(".dash-row").hidden = true;
 
@@ -62,19 +64,20 @@
     });
   }
 
-  /* ---------- CASE COMPS ---------- */
-  var cg = $("#caseGrid");
-  (C.caseComps || []).forEach(function (c, i) {
+  /* ---------- PROJECTS (cards open the brief + PDF popup) ---------- */
+  var cg = $("#caseGrid"), PROJECTS = C.projects || C.caseComps || [];
+  PROJECTS.forEach(function (c, i) {
     var b = el("button", "deck-card case pre-able"); b.type = "button";
+    var cover = c.cover || (c.folder ? c.folder + "/cover." + (c.ext || "webp") : "");
     b.innerHTML =
-      '<span class="deck-img"><img src="' + esc(c.folder) + '/cover.' + esc(c.ext || "webp") + '" alt="Cover: ' + esc(c.title) + '" loading="lazy"></span>' +
+      '<span class="deck-img"><img src="' + esc(cover) + '" alt="Cover: ' + esc(c.title) + '" loading="lazy"></span>' +
       '<span class="case-info">' +
         '<span class="case-title">' + txt(c.title) + "</span>" +
         '<span class="case-org">' + txt(c.org) + "</span>" +
         '<span class="case-foot">' + (c.result ? '<span class="result">' + esc(c.result) + "</span>" : "") +
-          "<span>View deck</span><span class=\"arrow\" aria-hidden=\"true\">↗</span></span>" +
+          "<span>View project</span><span class=\"arrow\" aria-hidden=\"true\">↗</span></span>" +
       "</span>";
-    b.addEventListener("click", function () { openViewer(c.title + " — " + c.org, slidesOf(c.folder, c.count, c.ext), 0); });
+    b.addEventListener("click", function () { openProject(c); });
     cg.appendChild(b);
   });
 
@@ -210,6 +213,124 @@
   var tx = null;
   $("#vStage").addEventListener("touchstart", function (e) { tx = e.touches[0].clientX; }, { passive: true });
   $("#vStage").addEventListener("touchend", function (e) { if (tx == null) return; var dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 45) show(vIdx + (dx < 0 ? 1 : -1)); tx = null; });
+
+  /* ---------- PROJECT POPUP: brief on the left, PDF deck on the right ---------- */
+  var PM = $("#pm"), pmPanel = PM.querySelector(".pm-panel"), pmCanvas = $("#pmCanvas"), pmStage = $("#pmStage"), pmMsg = $("#pmMsg"), pmCount = $("#pmCount");
+  var pdfDoc = null, pdfPage = 1, pdfUrl = "", renderTask = null, pmLast = null, pdfCache = {}, pdfLibPromise = null;
+  var PDFJS = "assets/vendor/pdfjs/";
+  function loadPdfLib() {
+    if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+    if (pdfLibPromise) return pdfLibPromise;
+    pdfLibPromise = new Promise(function (res, rej) {
+      var sc = document.createElement("script"); sc.src = PDFJS + "pdf.min.js";
+      sc.onload = function () { window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.js"; res(window.pdfjsLib); };
+      sc.onerror = rej; document.head.appendChild(sc);
+    });
+    return pdfLibPromise;
+  }
+  function briefHTML(list) {
+    if (!list || !list.length) return "";
+    return list.map(function (b) {
+      var body = Array.isArray(b.text) ? "<ul>" + b.text.map(function (t) { return "<li>" + txt(t) + "</li>"; }).join("") + "</ul>" : "<p>" + txt(b.text) + "</p>";
+      return '<section class="pm-sec"><h4 class="pm-h mono">' + esc(b.heading) + "</h4>" + body + "</section>";
+    }).join("");
+  }
+  function setTab(t) {
+    pmPanel.setAttribute("data-tab", t);
+    $("#pmTabBrief").classList.toggle("on", t === "brief"); $("#pmTabDeck").classList.toggle("on", t === "deck");
+    if (t === "deck") renderPage();
+  }
+  function openProject(p) {
+    pmLast = document.activeElement;
+    $("#pmTitle").textContent = p.title || "";
+    $("#pmOrg").innerHTML = txt(p.org) + (p.result ? ' <span class="result">' + esc(p.result) + "</span>" : "");
+    $("#pmBrief").innerHTML = briefHTML(p.brief);
+    PM.hidden = false; document.body.classList.add("lock");
+    setTab("brief");
+    if (p.id && history.replaceState) history.replaceState(null, "", "#p-" + p.id);
+    $("#pmClose").focus();
+    pdfDoc = null; pdfPage = 1; pdfUrl = p.pdf || "";
+    var ctx = pmCanvas.getContext("2d"); ctx.clearRect(0, 0, pmCanvas.width, pmCanvas.height); pmCanvas.style.visibility = "hidden";
+    pmCount.textContent = "— / —"; pmMsg.hidden = false;
+    if (!pdfUrl) { pmMsg.textContent = "Deck coming soon."; return; }
+    if (location.protocol === "file:") { pmMsg.textContent = "The deck shows on the live site (browsers block PDFs opened straight from a file on your computer)."; return; }
+    pmMsg.textContent = "Loading deck…";
+    var want = pdfUrl;
+    loadPdfLib().then(function (lib) {
+      return pdfCache[want] || (pdfCache[want] = lib.getDocument({ url: want }).promise);
+    }).then(function (doc) {
+      if (want !== pdfUrl || PM.hidden) return;
+      pdfDoc = doc; pmMsg.hidden = true; renderPage();
+    }).catch(function () { delete pdfCache[want]; pmMsg.textContent = "Couldn't load the deck. Please refresh and try again."; });
+  }
+  function renderPage() {
+    if (!pdfDoc || PM.hidden) return;
+    var w = pmStage.clientWidth - 24, h = pmStage.clientHeight - 24;
+    if (w < 40 || h < 40) return; // panel hidden (phone, brief tab)
+    pdfPage = Math.max(1, Math.min(pdfDoc.numPages, pdfPage));
+    pmCount.textContent = String(pdfPage).padStart(2, "0") + " / " + String(pdfDoc.numPages).padStart(2, "0");
+    $("#pmPrev").disabled = pdfPage === 1; $("#pmNext").disabled = pdfPage === pdfDoc.numPages;
+    var n = pdfPage;
+    pdfDoc.getPage(n).then(function (page) {
+      if (n !== pdfPage) return;
+      var base = page.getViewport({ scale: 1 });
+      var scale = Math.min(w / base.width, h / base.height);
+      var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+      var vp = page.getViewport({ scale: scale * dpr });
+      if (renderTask) { try { renderTask.cancel(); } catch (_) {} }
+      var off = document.createElement("canvas"); off.width = Math.floor(vp.width); off.height = Math.floor(vp.height);
+      renderTask = page.render({ canvasContext: off.getContext("2d"), viewport: vp });
+      renderTask.promise.then(function () {
+        if (n !== pdfPage) return;
+        pmCanvas.width = off.width; pmCanvas.height = off.height;
+        pmCanvas.style.width = Math.floor(base.width * scale) + "px"; pmCanvas.style.height = Math.floor(base.height * scale) + "px";
+        pmCanvas.getContext("2d").drawImage(off, 0, 0); pmCanvas.style.visibility = "visible";
+      }).catch(function () {});
+    });
+  }
+  function go(d) { if (!pdfDoc) return; var t = pdfPage + d; if (t < 1 || t > pdfDoc.numPages) return; pdfPage = t; renderPage(); }
+  function closeProject() {
+    PM.hidden = true; document.body.classList.remove("lock");
+    if (document.fullscreenElement) { try { document.exitFullscreen(); } catch (_) {} }
+    if (/^#p-/.test(location.hash) && history.replaceState) history.replaceState(null, "", location.pathname + location.search);
+    if (pmLast) pmLast.focus();
+  }
+  $("#pmClose").addEventListener("click", closeProject);
+  PM.addEventListener("click", function (e) { if (e.target === PM) closeProject(); });
+  $("#pmPrev").addEventListener("click", function () { go(-1); });
+  $("#pmNext").addEventListener("click", function () { go(1); });
+  $("#pmTabBrief").addEventListener("click", function () { setTab("brief"); });
+  $("#pmTabDeck").addEventListener("click", function () { setTab("deck"); });
+  $("#pmFull").addEventListener("click", function () {
+    var d = pmPanel.querySelector(".pm-deck");
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (d.requestFullscreen) d.requestFullscreen().catch(function () {});
+  });
+  document.addEventListener("fullscreenchange", function () { setTimeout(renderPage, 60); });
+  var rz = null; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(renderPage, 120); });
+  // view-only: no right-click / save on the slides
+  pmStage.addEventListener("contextmenu", function (e) { e.preventDefault(); });
+  pmCanvas.addEventListener("dragstart", function (e) { e.preventDefault(); });
+  var ptx = null;
+  pmStage.addEventListener("touchstart", function (e) { ptx = e.touches[0].clientX; }, { passive: true });
+  pmStage.addEventListener("touchend", function (e) { if (ptx == null) return; var dx = e.changedTouches[0].clientX - ptx; if (Math.abs(dx) > 45) go(dx < 0 ? 1 : -1); ptx = null; });
+  document.addEventListener("keydown", function (e) {
+    if (PM.hidden) return;
+    if (e.key === "Escape" && !document.fullscreenElement) closeProject();
+    else if (e.key === "ArrowRight") go(1);
+    else if (e.key === "ArrowLeft") go(-1);
+    else if (e.key === "Tab") {
+      var f = Array.prototype.filter.call(PM.querySelectorAll("button:not([disabled]),a[href]"), function (x) { return x.offsetParent !== null; }); if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+  // direct links: yoursite/#p-chings opens that project
+  (function () {
+    var m = location.hash.match(/^#p-(.+)$/); if (!m) return;
+    if (m[1] === "internship" && I.deck && I.deck.pdf) { $("#internDeck").click(); return; }
+    PROJECTS.forEach(function (p) { if (p.id === m[1]) openProject(p); });
+  })();
 
   /* ---------- NAV ---------- */
   var tog = $("#navToggle"), links = $("#navLinks");

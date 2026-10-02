@@ -45,7 +45,11 @@ window.CONTENT = {
     project: "HRC Price Intelligence",
     summary: "Analysis of Global Steel Price Dynamics and Inter-Nation Interdependence along with Investigation of Key Variables Influencing International Steel Market Price Movements",
     highlights: ["Identified the issues currently faced by the pricing department through primary and secondary research", "Produced a self updating live dashboard with relevant KPIs to analyse steel price movements"],                                 // optional bullet points, e.g. ["Built a live dashboard", "..."]
-    deck: { folder: "assets/decks/tata-steel", count: 14 },
+    // Opens in the project popup: brief on the left, PDF deck on the right
+    deck: { pdf: "assets/decks/tata-steel/deck.pdf", cover: "assets/decks/tata-steel/1.webp" },
+    brief: [
+      { heading: "Brief", text: "[Write the project brief here]" },
+    ],
     dashboard: "https://hrcpipeline-tata-bharat.streamlit.app/",
   },
 
@@ -68,11 +72,57 @@ window.CONTENT = {
   /* ---------- 04 · CASE COMPETITIONS ----------
      Each deck lives in assets/decks/<folder>/ as cover.webp, 1.webp, 2.webp …
      count = number of slides. result is optional — leave "" to hide it. */
-  caseComps: [
-    { title: "Chings Winning in Korean Noodles", org: "Tata Consumer Products Ltd.",       result: "", folder: "assets/decks/tcpl",       count: 5 },
-    { title: "HOCCO's Entry into Goa",           org: "Goa Institute of Management × HOCCO", result: "", folder: "assets/decks/gim",        count: 4 },
-    { title: "Run.io",                            org: "Great Lakes Annual Management Fest",   result: "", folder: "assets/decks/greatlakes", count: 4 },
-    { title: "Qurkle × Mira",                     org: "Markagaon, IMI Delhi",                 result: "", folder: "assets/decks/imi",        count: 5 },
+  /* Each project opens in a popup: brief on the left, PDF deck on the right.
+     • id      = short name used in the project's direct link (yoursite/#p-chings)
+     • result  = optional badge, e.g. "Finalist" — leave "" to hide
+     • brief   = the headings + text on the left. Add or delete a { heading, text } line
+                 to add or remove a heading. Each project can have different headings.
+                 For bullet points, use a list:  text: ["Point one", "Point two"]  */
+  projects: [
+    {
+      id: "chings",
+      title: "Chings Winning in Korean Noodles",
+      org: "Tata Consumer Products Ltd.",
+      result: "",
+      cover: "assets/decks/tcpl/cover.webp",
+      pdf: "assets/decks/tcpl/deck.pdf",
+      brief: [
+      { heading: "Brief", text: "[Write the project brief here]" },
+    ],
+    },
+    {
+      id: "hocco",
+      title: "HOCCO's Entry into Goa",
+      org: "Goa Institute of Management × HOCCO",
+      result: "",
+      cover: "assets/decks/gim/cover.webp",
+      pdf: "assets/decks/gim/deck.pdf",
+      brief: [
+      { heading: "Brief", text: "[Write the project brief here]" },
+    ],
+    },
+    {
+      id: "runio",
+      title: "Run.io",
+      org: "Great Lakes Annual Management Fest",
+      result: "",
+      cover: "assets/decks/greatlakes/cover.webp",
+      pdf: "assets/decks/greatlakes/deck.pdf",
+      brief: [
+      { heading: "Brief", text: "[Write the project brief here]" },
+    ],
+    },
+    {
+      id: "qurkle",
+      title: "Qurkle × Mira",
+      org: "Markagaon, IMI Delhi",
+      result: "",
+      cover: "assets/decks/imi/cover.webp",
+      pdf: "assets/decks/imi/deck.pdf",
+      brief: [
+      { heading: "Brief", text: "[Write the project brief here]" },
+    ],
+    },
   ],
 
   /* ---------- 05 · CLUBS & COMMITTEES ---------- */
