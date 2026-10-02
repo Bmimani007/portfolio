@@ -370,12 +370,17 @@
   function setMax(on) {
     PM.classList.toggle("pm-max", on);
     var b = $("#pmFull"); b.innerHTML = on ? "⤡ <span>Exit</span>" : "⛶ <span>Full screen</span>"; b.setAttribute("aria-label", on ? "Exit full screen" : "Full screen");
-    if (on && !document.fullscreenElement && PM.requestFullscreen) PM.requestFullscreen().catch(function () {});
-    if (!on && document.fullscreenElement) { try { document.exitFullscreen(); } catch (_) {} }
+    var deck = pmPanel.querySelector(".pm-deck");
+    if (on && !document.fullscreenElement) {
+      var rq = deck.requestFullscreen || deck.webkitRequestFullscreen;
+      if (rq) { try { var r = rq.call(deck); if (r && r.catch) r.catch(function () {}); } catch (_) {} }
+    }
+    if (!on && (document.fullscreenElement || document.webkitFullscreenElement)) { try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (_) {} }
     setTimeout(layout, 80);
   }
   $("#pmFull").addEventListener("click", function () { setMax(!PM.classList.contains("pm-max")); });
-  document.addEventListener("fullscreenchange", function () { if (!document.fullscreenElement && PM.classList.contains("pm-max")) setMax(false); else setTimeout(layout, 80); });
+  function fsChange() { if (!(document.fullscreenElement || document.webkitFullscreenElement) && PM.classList.contains("pm-max")) setMax(false); else setTimeout(layout, 80); }
+  document.addEventListener("fullscreenchange", fsChange); document.addEventListener("webkitfullscreenchange", fsChange);
   var rz = null; window.addEventListener("resize", function () { clearTimeout(rz); rz = setTimeout(function () { if (fitW() !== layoutW) layout(); }, 150); });
   // view-only: no right-click / save on the slides
   pmStage.addEventListener("contextmenu", function (e) { e.preventDefault(); });

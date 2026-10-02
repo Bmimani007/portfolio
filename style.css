@@ -381,7 +381,7 @@ body.lock{overflow:hidden}
 .pm.pm-max .pm-body{grid-template-columns:1fr}
 .pm.pm-max .pm-deck{display:grid!important;background:#000}
 .pm.pm-max .pm-ctrl{padding-bottom:calc(env(safe-area-inset-bottom,0px) + 12px)}
-.pm-deck:fullscreen{background:#000}
+.pm-deck:fullscreen,.pm-deck:-webkit-full-screen{background:#000;width:100%;height:100%}
 
 @media (max-width:900px){
   .pm{padding:0}
