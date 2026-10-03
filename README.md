@@ -127,3 +127,25 @@ Each project also has a direct link, e.g. `bharatmimani.vercel.app/#p-chings` �
 ## Before every interview
 - Open the **Streamlit dashboard** once, about 5 minutes before. Free apps go to sleep and take around 30 seconds to wake up.
 - Open your site on your phone to check that everything loads.
+
+---
+
+## Part G: The Room page (`room.html`)
+
+The **Room** link in the menu opens an interactive picture of your room. **Everything you can read there is edited in `content.js` → `room:`** (near the bottom of the file). The clock and calendar on the desk update by themselves.
+
+| Click this in the room | Edit this in `content.js → room` |
+|---|---|
+| 🎧 Headphones | `song` — paste a YouTube link in `youtube: ""`, add the song name in `title`. `start: 30` skips the first 30 seconds |
+| 💻 Laptop | `laptop → projects` and `laptop → courses` (`progress` is a number from 0 to 100) |
+| 🖼️ Radha Krishna frame | `krishnaQuote` |
+| 🗑️ Dustbin | `failedPlans` (one plan per line), `failedNote` (optional last line) |
+| 📚 Books on the side table | `books → reading / read / wishlist`. Add `favourite: true` for an all-time favourite. Reviews go between backticks `` ` `` and can be as long as you like |
+| 🖼️ Photo with friends | `friends → quote`. To use the original photo, upload it as `assets/Room/friends.webp` (or .jpg and change `photo:`) |
+| 🚪 Door (hoodies) | Hoodies and designations come from `clubs`. The bottom line is `hoodiesLine` |
+| 🏀 Basketball shoe | `basketball → intro` and `achievements` |
+
+**Adding a book cover:** save the cover image in `assets/Room/books/` (for example `atomic-habits.jpg`) and write `cover: "assets/Room/books/atomic-habits.jpg"`. With `cover: ""` the site shows a plain red cover with the first letter.
+
+**Changing the room pictures:** replace `room.webp`, `desk.webp`, `side-table.webp` or `shoes.webp` in `assets/Room/` with images of the **same size and framing**, otherwise the clickable spots will be in the wrong places. Ask for help if you regenerate them.
+

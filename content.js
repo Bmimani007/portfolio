@@ -153,4 +153,76 @@ window.CONTENT = {
   '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7475401594663026688?collapsed=1" height="895" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   '<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:share:7470348080526290944?collapsed=1" height="549" width="504" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>',
   ],
+
+  /* ---------- ROOM PAGE (room.html) ----------
+     Everything you see when you click things in your room.
+     Anything written like "[ ... ]" shows as a dashed placeholder.
+     The clock and calendar on the desk update by themselves.
+     The hoodies on the door use the "clubs" list above. */
+  room: {
+
+    // 🎧 Headphones → plays this song (paste any YouTube link). start = seconds to skip.
+    song: { title: "[Song name — Artist]", youtube: "https://www.youtube.com/watch?v=V_08pyhaaTo&list=RDk5GksRtpMNw&index=24", start: 20 },
+
+    // 🖼️ Radha Krishna frame on the desk → this quote pops up
+    krishnaQuote: { text: "sarva-dharmān parityajya mām ekaṁ śharaṇaṁ vraja, ahaṁ tvāṁ sarva-pāpebhyo mokṣhayiṣhyāmi mā śhuchaḥ", by: "B.G. 18.66" },
+
+    // 🗑️ Dustbin → crumpled paper of plans that didn't make it
+    failedTitle: "Plans that didn't make it",
+    failedPlans: ["Engineer", "Pilot", "Movie maker", "VFX artist"],
+    failedNote: "Glad I kept looking",                                   // optional last line, e.g. "Glad I kept looking."
+
+    // 💻 Laptop → two tabs
+    laptop: {
+      projects: [
+        { title: "[Project name]", note: "[One line about what you're building]", status: "In progress" },
+        { title: "[Project name]", note: "[One line about it]", status: "In progress" },
+      ],
+      courses: [
+        { title: "[Course name]", provider: "[Platform — e.g. Coursera]", progress: 40 },   // progress = % done
+        { title: "[Course name]", provider: "[Platform]", progress: 10 },
+      ],
+    },
+
+    // 📚 Book stack on the side table → three tabs
+    // cover = image path (e.g. "assets/Room/books/atomic-habits.webp") or "" for a plain cover
+    // favourite: true puts a ★ on it. review can be long; leave an empty line between paragraphs.
+    books: {
+      reading: [
+        { title: "[Book title]", author: "[Author]", cover: "" },
+      ],
+      read: [
+        { title: "[Book title]", author: "[Author]", cover: "", favourite: true,
+          review: `[Write your review here. It can be as long as you like.
+
+A blank line like the one above starts a new paragraph.]` },
+        { title: "[Book title]", author: "[Author]", cover: "", favourite: false, review: `[Your review]` },
+      ],
+      wishlist: [
+        { title: "[Book title]", author: "[Author]", cover: "" },
+      ],
+    },
+
+    // 🖼️ Photo with friends on the side table → photo on the left, quote on the right
+    friends: { photo: "assets/Room/friends.webp", quote: `Agar biki teri dosti, toh pehle kharidar hum honge.
+Tujhe pata na hogi teri kimmat, par tujhe paa kar sabse ameer hum honge.
+
+Agar tum sath ho toh rone me bhi shaan hai.
+Or tum na ho toh mehfill bhi shamshan hai.
+
+Sara khel dosti ka hai, ae mere dost.
+Varna janaja or baraat, dono ek hi smaan hai.`, by: "" },
+
+    // 🚪 Door → hoodie popup (hoodies + designations come from "clubs"). One line at the bottom:
+    hoodiesLine: "P.S. - I designed all 3",
+
+    // 🏀 Basketball shoe → achievements
+    basketball: {
+      intro: "[One or two lines about you and basketball]",
+      achievements: [
+        { year: "[Year]", title: "[Achievement]", note: "[Optional detail]" },
+        { year: "[Year]", title: "[Achievement]", note: "" },
+      ],
+    },
+  },
 };

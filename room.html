@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Room · Bharat Mimani</title>
+<meta name="description" content="Step into Bharat Mimani's room: what he's working on, reading, listening to and playing.">
+<meta property="og:title" content="My Room · Bharat Mimani">
+<meta property="og:image" content="https://bharatmimani.vercel.app/assets/Room/room.webp">
+<meta name="theme-color" content="#0D0C0C">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23D7362A'/%3E%3Ctext x='32' y='44' font-family='Impact,Arial Black,sans-serif' font-size='34' text-anchor='middle' fill='%23F1EBE1'%3EBM%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="assets/Room/room.webp" as="image">
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="room.css">
+</head>
+<body>
+
+<!-- Loading screen -->
+<div class="loader" id="loader">
+  <p class="loader-word">MY <em>Room</em></p>
+  <div class="loader-bar"><span id="loaderBar"></span></div>
+  <p class="mono loader-txt">Opening the door…</p>
+</div>
+
+<!-- Top bar -->
+<header class="bar">
+  <a class="bar-btn mono" href="index.html" id="toSite">← Portfolio</a>
+  <button class="bar-btn mono" id="backBtn" type="button" hidden>← Back to room</button>
+  <p class="bar-title"><span>MY</span> <em>Room</em></p>
+  <p class="bar-where mono" id="where">Overview</p>
+</header>
+
+<!-- The room -->
+<main class="stage" id="stage" aria-label="Interactive view of Bharat's room"></main>
+
+<p class="hint mono" id="hint"></p>
+<p class="swipe mono" id="swipe" hidden>← Swipe to look around →</p>
+
+<!-- Laptop screen -->
+<section class="laptop" id="laptop" hidden aria-label="Laptop">
+  <div class="lp-win">
+    <div class="lp-chrome">
+      <span class="lp-dots"><i></i><i></i><i></i></span>
+      <div class="lp-tabs" role="tablist">
+        <button class="lp-tab" type="button" data-tab="projects" role="tab">Current projects</button>
+        <button class="lp-tab" type="button" data-tab="courses" role="tab">Current courses</button>
+      </div>
+      <button class="lp-close" id="lpClose" type="button" aria-label="Close laptop">✕</button>
+    </div>
+    <div class="lp-addr mono"><span>bharat@room</span> ~/<b id="lpPath">projects</b></div>
+    <div class="lp-body" id="lpBody"></div>
+  </div>
+</section>
+
+<!-- Friends frame -->
+<section class="fview" id="fview" hidden aria-label="Photo with friends">
+  <figure class="fv-frame"><img id="fvImg" alt="Bharat with his friends"></figure>
+  <blockquote class="fv-quote"><p id="fvQuote"></p><cite class="mono" id="fvBy"></cite></blockquote>
+  <button class="fv-close mono" id="fvClose" type="button">✕ Close</button>
+</section>
+
+<!-- Popups -->
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-panel" id="modalPanel"></div>
+</div>
+
+<!-- Song player -->
+<aside class="player" id="player" hidden>
+  <div class="pl-head"><span class="mono pl-now">♪ Now playing</span><button class="pl-close" id="plClose" type="button" aria-label="Close player and stop music">✕</button></div>
+  <p class="pl-title" id="plTitle"></p>
+  <div class="pl-frame" id="plFrame"></div>
+</aside>
+
+<script src="content.js"></script>
+<script src="room.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

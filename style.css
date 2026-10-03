@@ -398,3 +398,6 @@ body.lock{overflow:hidden}
   .pm-full{position:static;padding:0 12px}
   .pm-full span{display:none}
 }
+
+/* Room page link in the menu */
+.nav-links a.nav-room{color:var(--red-hi);opacity:1}
