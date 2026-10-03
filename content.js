@@ -162,7 +162,7 @@ window.CONTENT = {
   room: {
 
     // 🎧 Headphones → plays this song (paste any YouTube link). start = seconds to skip.
-    song: { title: "[Song name — Artist]", youtube: "https://www.youtube.com/watch?v=V_08pyhaaTo&list=RDk5GksRtpMNw&index=24", start: 20 },
+    song: { youtube: "https://www.youtube.com/watch?v=V_08pyhaaTo&list=RDk5GksRtpMNw&index=24", start: 20 },
 
     // 🖼️ Radha Krishna frame on the desk → this quote pops up
     krishnaQuote: { text: "sarva-dharmān parityajya mām ekaṁ śharaṇaṁ vraja, ahaṁ tvāṁ sarva-pāpebhyo mokṣhayiṣhyāmi mā śhuchaḥ", by: "B.G. 18.66" },
