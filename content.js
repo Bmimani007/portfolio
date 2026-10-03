@@ -169,18 +169,17 @@ window.CONTENT = {
 
     // 🗑️ Dustbin → crumpled paper of plans that didn't make it
     failedTitle: "Plans that didn't make it",
-    failedPlans: ["Engineer", "Pilot", "Movie maker", "VFX artist"],
+    failedPlans: ["Engineer", "Pilot", "Movie director", "VFX artist"],
     failedNote: "Glad I kept looking",                                   // optional last line, e.g. "Glad I kept looking."
 
     // 💻 Laptop → two tabs
     laptop: {
       projects: [
-        { title: "[Project name]", note: "[One line about what you're building]", status: "In progress" },
-        { title: "[Project name]", note: "[One line about it]", status: "In progress" },
+        { title: "Portfolio", note: "Building this portfolio", status: "In progress" },
       ],
       courses: [
-        { title: "[Course name]", provider: "[Platform — e.g. Coursera]", progress: 40 },   // progress = % done
-        { title: "[Course name]", provider: "[Platform]", progress: 10 },
+        { title: "Claude Code for Marketing", provider: "Youtube", progress: 5 },   // progress = % done
+        { title: "Product Management", provider: "IBM | Skillup", progress: 30 },
       ],
     },
 
@@ -189,17 +188,15 @@ window.CONTENT = {
     // favourite: true puts a ★ on it. review can be long; leave an empty line between paragraphs.
     books: {
       reading: [
-        { title: "[Book title]", author: "[Author]", cover: "" },
+        { title: "Sales Mind", author: "Helen Kensett", cover: "assets/Room/books/Sales_mind.webp" },
       ],
       read: [
-        { title: "[Book title]", author: "[Author]", cover: "", favourite: true,
-          review: `[Write your review here. It can be as long as you like.
-
-A blank line like the one above starts a new paragraph.]` },
-        { title: "[Book title]", author: "[Author]", cover: "", favourite: false, review: `[Your review]` },
+        { title: "The Journey Home: Autobiography of an American Swami", author: "Radhanath Swami", cover: "assets/Room/books/Journey_home.webp", favourite: true,
+          review: `The Journey Home is the first book in a sequel; the second being The Journey Within. The Journey Home is written by and about Rhadanath Swami’s spiritual journey from the United States to India. On little to no money, he backpacked through Europe, Turkey, the Middle-East, and finally into India and the Himalayas. He talks about his experiences and lessons he learned on the way. He meets many famous yogis and studies under a variety of different people. On his journey through India he meets the Dalai Lama, Mother Theresa, and very prominent swamis and mystics who founded different yoga or meditation institutions throughout India. To me the most impactful and humbling aspect is that he managed to get by traveling with almost zero possessions, let alone money. Not only could he get by, but he consistently expressed gratitude for everything going on, even in the most dismal of times.` },
+        { title: "Why Fonts Matter", author: "Sarah Hyndman", cover: "assets/Room/books/WFM.webp", favourite: false, review: `This book opens up the science and the art behind how fonts influence you. It explains why certain fonts or styles evoke particular experiences and associations. Fonts have different personalities that can create trust, mistrust, give you confidence, make things seem easier to do or make a product taste better. They're hidden in plain sight, they trigger memories, associations and multisensory experiences in your imagination.` },
       ],
       wishlist: [
-        { title: "[Book title]", author: "[Author]", cover: "" },
+        { title: "Never Split the Difference", author: "Chris Voss", cover: "assets/Room/books/NSTD.webp" },
       ],
     },
 
@@ -218,10 +215,10 @@ Varna janaja or baraat, dono ek hi smaan hai.`, by: "" },
 
     // 🏀 Basketball shoe → achievements
     basketball: {
-      intro: "[One or two lines about you and basketball]",
+      intro: "Fast break to glory",
       achievements: [
-        { year: "[Year]", title: "[Achievement]", note: "[Optional detail]" },
-        { year: "[Year]", title: "[Achievement]", note: "" },
+        { year: "2025", title: "IMT Hyderabad team", note: "" },
+        { year: "2020", title: "School basketball team caption", note: "" },
       ],
     },
   },
