@@ -87,7 +87,7 @@ window.CONTENT = {
       cover: "assets/decks/tcpl/cover.webp",
       pdf: "assets/decks/tcpl/deck.pdf",
       brief: [
-      { heading: "Brief", text: "[Write the project brief here]" },
+      { heading: "Brief", text: "Ching’s Secret aims to disrupt India’s ₹300cr+ Korean noodle market dominated by imported brands by blending authentic Korean elements with Indian taste and pricing. The case focuses on identifying consumer triggers and market gaps to build a scalable, differentiated GTM strategy in the growing instant noodle segment." },
     ],
     },
     {
@@ -98,7 +98,7 @@ window.CONTENT = {
       cover: "assets/decks/gim/cover.webp",
       pdf: "assets/decks/gim/deck.pdf",
       brief: [
-      { heading: "Brief", text: "[Write the project brief here]" },
+      { heading: "Brief", text: "The case focuses on building a Goa-specific market entry and visibility strategy for HOCCO Ice Cream during its first full summer, leveraging brand equity in a tourism driven market." },
     ],
     },
     {
@@ -109,7 +109,7 @@ window.CONTENT = {
       cover: "assets/decks/greatlakes/cover.webp",
       pdf: "assets/decks/greatlakes/deck.pdf",
       brief: [
-      { heading: "Brief", text: "[Write the project brief here]" },
+      { heading: "Brief", text: "The pitch introduces Run.io, a gamified running platform designed to bridge the community gap for runners in India through social engagement and gameplay. It outlines a full strategy from market insights to GTM, leveraging “territory capture” and multi channel marketing to drive user consistency." },
     ],
     },
     {
@@ -120,7 +120,7 @@ window.CONTENT = {
       cover: "assets/decks/imi/cover.webp",
       pdf: "assets/decks/imi/deck.pdf",
       brief: [
-      { heading: "Brief", text: "[Write the project brief here]" },
+      { heading: "Brief", text: "The case presents a GTM and monetisation strategy for Qurkle, positioning its AI concierge Mira as a “digital wingwoman” while maintaining premium exclusivity. It outlines a 90-day Delhi NCR launch combining subscription revenue with curated offline events to blend digital matchmaking and real world experiences." },
     ],
     },
   ],
