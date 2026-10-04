@@ -424,9 +424,22 @@
   function courtHTML() {
     const b = R.basketball || {};
     const list = b.achievements || [];
-    return `<p class="m-kicker mono">Off the desk</p><h3 class="m-h">On the <em>Court</em></h3>
-      ${b.intro ? `<p class="m-lede">${t(b.intro)}</p>` : ""}
-      <ol class="ct-list">${list.map((a) => `<li><span class="mono ct-yr">${t(a.year || "")}</span><div><h4>${t(a.title)}</h4>${a.note ? `<p>${t(a.note)}</p>` : ""}</div></li>`).join("")}</ol>`;
+    const avatar = has(b.avatar) ? b.avatar : DIR + "avatar.webp";
+    return `<div class="ct-wrap">
+      <div class="ct-stage" aria-hidden="true">
+        <span class="ct-live mono"><i></i>Player cam</span>
+        <div class="ct-court"></div>
+        <div class="ct-spot"></div>
+        <div class="ct-floor"><span></span></div>
+        <img class="ct-avatar" src="${esc(avatar)}" alt="" decoding="async">
+        <div class="ct-tag"><b>${esc(b.name || "Bharat")}</b>${b.number ? `<span class="mono">#${esc(b.number)}</span>` : ""}</div>
+      </div>
+      <div class="ct-info">
+        <p class="m-kicker mono">Off the desk</p><h3 class="m-h">On the <em>Court</em></h3>
+        ${b.intro ? `<p class="m-lede">${t(b.intro)}</p>` : ""}
+        <ol class="ct-list">${list.map((a) => `<li><span class="mono ct-yr">${t(a.year || "")}</span><div><h4>${t(a.title)}</h4>${a.note ? `<p>${t(a.note)}</p>` : ""}</div></li>`).join("")}</ol>
+      </div>
+    </div>`;
   }
   function bookCard(bk, withReview) {
     const cover = has(bk.cover)
@@ -534,6 +547,7 @@
     setChrome();
     loader.classList.add("gone");
     setTimeout(() => loader.remove(), 700);
+    setTimeout(() => preload(has((R.basketball || {}).avatar) ? R.basketball.avatar : DIR + "avatar.webp"), 2500);
     VIEWS.room.cv.animate([{ transform: "scale(1.06)", opacity: 0 }, { transform: "scale(1)", opacity: 1 }], { duration: dur(1100), easing: "cubic-bezier(.2,.8,.2,1)" });
   });
   layoutAll();
