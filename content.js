@@ -221,7 +221,7 @@ Varna janaja or baraat, dono ek hi smaan hai.`, by: "" },
       number: "16",                         // jersey number on the tag ("" to hide it)
       achievements: [
         { year: "2025", title: "IMT Hyderabad team", note: "" },
-        { year: "2020", title: "School basketball team caption", note: "" },
+        { year: "2020", title: "School basketball team captain", note: "" },
         { year: "2020", title: "1st position, intra school tournament", note: "" }
       ],
     },
