@@ -208,7 +208,7 @@ Agar tum sath ho toh rone me bhi shaan hai.
 Or tum na ho toh mehfill bhi shamshan hai.
 
 Sara khel dosti ka hai, ae mere dost.
-Varna janaja or baraat, dono ek hi smaan hai.`, by: "" },
+Varna janaja or baraat, dono ek hi samaan hai.`, by: "" },
 
     // 🚪 Door → hoodie popup (hoodies + designations come from "clubs"). One line at the bottom:
     hoodiesLine: "P.S. - I designed all 3",
