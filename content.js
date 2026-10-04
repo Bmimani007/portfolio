@@ -169,7 +169,7 @@ window.CONTENT = {
 
     // 🗑️ Dustbin → crumpled paper of plans that didn't make it
     failedTitle: "Plans that didn't make it",
-    failedPlans: ["Engineer", "Pilot", "Movie director", "VFX artist"],
+    failedPlans: ["Pilot", "Engineer", "Movie director", "VFX artist"],
     failedNote: "Glad I kept looking",                                   // optional last line, e.g. "Glad I kept looking."
 
     // 💻 Laptop → two tabs
