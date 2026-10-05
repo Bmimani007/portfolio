@@ -64,13 +64,20 @@
     });
   }
 
-  /* ---------- PROJECTS (cards open the brief + PDF popup) ---------- */
-  var cg = $("#caseGrid"), PROJECTS = C.projects || C.caseComps || [];
-  PROJECTS.forEach(function (c, i) {
-    var b = el("button", "deck-card case pre-able"); b.type = "button";
+  /* ---------- PROJECTS: one tab per category, cards open the project popup ---------- */
+  var cg = $("#caseGrid"), ptabs = $("#projTabs"), PROJECTS = C.projects || C.caseComps || [];
+  var catOf = function (p) { return String(p.category || "").trim() || "Projects"; };
+  var CATS = [];   // tab order = order each category first appears in content.js
+  PROJECTS.forEach(function (p) { if (CATS.indexOf(catOf(p)) < 0) CATS.push(catOf(p)); });
+  var curCat = CATS[0];
+  function projectCard(c) {
+    var b = el("button", "deck-card case"); b.type = "button";
     var cover = c.cover || (c.folder ? c.folder + "/cover." + (c.ext || "webp") : "");
+    var initial = esc(String(c.title || "?").replace(/[\[\]]/g, "").trim().charAt(0) || "?");
     b.innerHTML =
-      '<span class="deck-img"><img src="' + esc(cover) + '" alt="Cover: ' + esc(c.title) + '" loading="lazy"></span>' +
+      '<span class="deck-img' + (cover ? "" : " no-cover") + '">' +
+        (cover ? '<img src="' + esc(cover) + '" alt="Cover: ' + esc(c.title) + '" loading="lazy">' : '<span class="nc-letter" aria-hidden="true">' + initial + "</span>") +
+      "</span>" +
       '<span class="case-info">' +
         '<span class="case-title">' + txt(c.title) + "</span>" +
         '<span class="case-org">' + txt(c.org) + "</span>" +
@@ -78,8 +85,28 @@
           "<span>View project</span><span class=\"arrow\" aria-hidden=\"true\">↗</span></span>" +
       "</span>";
     b.addEventListener("click", function () { openProject(c); });
-    cg.appendChild(b);
+    return b;
+  }
+  function showCat(cat, animate) {
+    curCat = cat;
+    Array.prototype.forEach.call(ptabs.children, function (t) { var on = t.getAttribute("data-cat") === cat; t.classList.toggle("on", on); t.setAttribute("aria-selected", String(on)); });
+    cg.innerHTML = "";
+    PROJECTS.filter(function (p) { return catOf(p) === cat; }).forEach(function (p, i) {
+      var card = projectCard(p);
+      if (!animate) card.classList.add("pre-able");
+      if (animate && !reduce) { card.style.animation = "projIn .5s " + Math.min(i, 6) * 60 + "ms both cubic-bezier(.2,.8,.2,1)"; }
+      cg.appendChild(card);
+    });
+  }
+  CATS.forEach(function (cat) {
+    var n = PROJECTS.filter(function (p) { return catOf(p) === cat; }).length;
+    var t = el("button", "proj-tab"); t.type = "button"; t.setAttribute("role", "tab"); t.setAttribute("data-cat", cat);
+    t.innerHTML = esc(cat) + ' <span class="mono">' + n + "</span>";
+    t.addEventListener("click", function () { if (cat !== curCat) showCat(cat, true); });
+    ptabs.appendChild(t);
   });
+  ptabs.hidden = !CATS.length;
+  if (CATS.length) showCat(curCat, false);
 
   /* ---------- CLUBS ---------- */
   var stack = $("#clubStack"), labels = $("#clubLabels");
@@ -194,13 +221,14 @@
     Array.prototype.forEach.call(vDots.children, function (d, n) { d.className = n === vIdx ? "on" : ""; });
     var link = vLinks && vLinks[vIdx]; vVerify.hidden = !link; if (link) vVerify.href = link;
   }
-  function closeViewer() { V.hidden = true; document.body.classList.remove("lock"); vImg.src = ""; if (lastFocus) lastFocus.focus(); }
+  function closeViewer() { V.hidden = true; V.classList.remove("over"); if (PM.hidden) document.body.classList.remove("lock"); vImg.src = ""; if (lastFocus) lastFocus.focus(); }
   $("#vClose").addEventListener("click", closeViewer);
   $("#vPrev").addEventListener("click", function () { show(vIdx - 1); });
   $("#vNext").addEventListener("click", function () { show(vIdx + 1); });
   $("#vStage").addEventListener("click", function (e) { if (e.target === e.currentTarget) closeViewer(); });
   document.addEventListener("keydown", function (e) {
     if (V.hidden) return;
+    if (e.key === "Escape" || e.key === "ArrowRight" || e.key === "ArrowLeft") e.preventDefault();
     if (e.key === "Escape") closeViewer();
     else if (e.key === "ArrowRight") show(vIdx + 1);
     else if (e.key === "ArrowLeft") show(vIdx - 1);
@@ -240,19 +268,36 @@
     $("#pmTabBrief").classList.toggle("on", t === "brief"); $("#pmTabDeck").classList.toggle("on", t === "deck");
     if (t === "deck") requestAnimationFrame(layout);
   }
+  function linksOf(p) {
+    var L = p.links || (p.link ? [p.link] : []);
+    return L.map(function (l) { return typeof l === "string" ? { label: "Open link", url: l } : l; }).filter(function (l) { return l && l.url && !isPh(l.url); });
+  }
+  function extrasHTML(p) {
+    var h = "", L = linksOf(p), G = (p.gallery || []).filter(function (g) { return g && !isPh(g); });
+    if (L.length) h += '<div class="pm-links">' + L.map(function (l) { return '<a class="btn btn-red btn-sm" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label || "Open link") + ' <span aria-hidden="true">↗</span></a>'; }).join("") + "</div>";
+    if (G.length) h += '<section class="pm-sec"><h4 class="pm-h mono">Gallery</h4><div class="pm-gal">' + G.map(function (g, i) { return '<button type="button" class="pm-gal-item" data-i="' + i + '" aria-label="Open image ' + (i + 1) + '"><img src="' + esc(g) + '" alt="" loading="lazy"></button>'; }).join("") + "</div></section>";
+    return h;
+  }
   function openProject(p) {
     pmLast = document.activeElement;
+    if (p.category && CATS.indexOf(catOf(p)) >= 0 && catOf(p) !== curCat) showCat(catOf(p), false);
     $("#pmTitle").textContent = p.title || "";
     $("#pmOrg").innerHTML = txt(p.org) + (p.result ? ' <span class="result">' + esc(p.result) + "</span>" : "");
-    $("#pmBrief").innerHTML = briefHTML(p.brief);
+    $("#pmBrief").innerHTML = briefHTML(p.brief) + extrasHTML(p);
+    var G = (p.gallery || []).filter(function (g) { return g && !isPh(g); });
+    Array.prototype.forEach.call($("#pmBrief").querySelectorAll(".pm-gal-item"), function (b) {
+      b.addEventListener("click", function () { V.classList.add("over"); openViewer(p.title || "Gallery", G, +b.getAttribute("data-i")); });
+    });
+    var hasDeck = !!(p.pdf && !isPh(p.pdf));
+    pmPanel.classList.toggle("no-deck", !hasDeck);
     PM.hidden = false; document.body.classList.add("lock");
     setTab("brief");
     if (p.id && history.replaceState) history.replaceState(null, "", "#p-" + p.id);
     $("#pmClose").focus();
     pdfDoc = null; pages = []; zoom = 1; layoutW = 0; pmPages.innerHTML = ""; pmStage.scrollTop = 0; pmStage.scrollLeft = 0;
     updZoomLabel(); pmCount.textContent = "— / —"; pmMsg.hidden = false;
-    pdfUrl = p.pdf || "";
-    if (!pdfUrl) { pmMsg.textContent = "Deck coming soon."; return; }
+    pdfUrl = hasDeck ? p.pdf : "";
+    if (!pdfUrl) return;
     if (location.protocol === "file:") { pmMsg.textContent = "The deck shows on the live site (browsers block PDFs opened straight from a file on your computer)."; return; }
     pmMsg.textContent = "Loading deck…";
     var want = pdfUrl;
@@ -392,7 +437,7 @@
     pmStage.scrollTo({ top: t.box.offsetTop - 16, behavior: reduce ? "auto" : "smooth" });
   }
   document.addEventListener("keydown", function (e) {
-    if (PM.hidden) return;
+    if (PM.hidden || e.defaultPrevented || !V.hidden) return;
     if (e.key === "Escape") { if (PM.classList.contains("pm-max")) setMax(false); else closeProject(); }
     else if (e.key === "f" || e.key === "F") setMax(!PM.classList.contains("pm-max"));
     else if (e.key === "ArrowRight" || e.key === "PageDown") { e.preventDefault(); pageJump(1); }

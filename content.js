@@ -73,14 +73,24 @@ window.CONTENT = {
      Each deck lives in assets/decks/<folder>/ as cover.webp, 1.webp, 2.webp …
      count = number of slides. result is optional — leave "" to hide it. */
   /* Each project opens in a popup: brief on the left, PDF deck on the right.
+     • category = which TAB the project sits under, e.g. "Case Competitions" or "Passion Projects".
+                  A new category name creates a new tab by itself; when no project uses a
+                  category any more, its tab disappears. Tabs appear in the order their first
+                  project appears in this list. Spell a category EXACTLY the same every time
+                  ("Passion Project" and "Passion Projects" would become two tabs).
      • id      = short name used in the project's direct link (yoursite/#p-chings)
      • result  = optional badge, e.g. "Finalist" — leave "" to hide
+     • cover   = optional card image. Leave "" and the card shows the title's first letter.
+     • pdf     = optional deck. Leave "" (or delete the line) and the popup shows only the brief.
+     • links   = optional buttons, e.g.  links: [{ label: "Visit website", url: "https://..." }],
+     • gallery = optional images, e.g.  gallery: ["assets/projects/myapp/1.webp", "assets/projects/myapp/2.webp"],
      • brief   = the headings + text on the left. Add or delete a { heading, text } line
                  to add or remove a heading. Each project can have different headings.
                  For bullet points, use a list:  text: ["Point one", "Point two"]  */
   projects: [
     {
       id: "chings",
+      category: "Case Competitions",
       title: "Chings Winning in Korean Noodles",
       org: "Tata Consumer Products Ltd.",
       result: "",
@@ -92,6 +102,7 @@ window.CONTENT = {
     },
     {
       id: "hocco",
+      category: "Case Competitions",
       title: "HOCCO's Entry into Goa",
       org: "Goa Institute of Management × HOCCO",
       result: "",
@@ -103,6 +114,7 @@ window.CONTENT = {
     },
     {
       id: "runio",
+      category: "Case Competitions",
       title: "Run.io",
       org: "Great Lakes Annual Management Fest",
       result: "",
@@ -114,6 +126,7 @@ window.CONTENT = {
     },
     {
       id: "qurkle",
+      category: "Case Competitions",
       title: "Qurkle × Mira",
       org: "Markagaon, IMI Delhi",
       result: "",

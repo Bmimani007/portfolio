@@ -85,29 +85,46 @@ linkedinPosts: [
 
 ---
 
-## Part E: Projects (brief + PDF deck popup)
+## Part E: Projects (tabs + project popup)
 
-Each project card opens a popup: **the brief on the left, the PDF deck on the right** (on phones: Brief / Deck tabs).
+The Projects section has **one tab per category** (for example "Case Competitions", "Passion Projects"). Tabs are made automatically from `content.js`. You never edit tabs directly.
 
-**To edit a brief:** in `content.js`, find the project under `projects` and edit its `brief` list:
+**How tabs work**
+- Every project has a `category:` line. Projects with the same category share a tab.
+- **New tab:** give a project a new category name, e.g. `category: "Passion Projects",`. The tab appears by itself.
+- **Remove a tab:** delete (or re-categorise) every project in it. The tab disappears by itself.
+- **Rename a tab:** change the category on all of its projects.
+- **Tab order** = the order in which each category's first project appears in the list. To move a tab first, move one of its projects to the top.
+- Spell the category **exactly** the same every time: `"Passion Project"` and `"Passion Projects"` would become two different tabs.
+- The number next to each tab name is how many projects it has (automatic).
+
+**Each project can have** (only `category`, `id` and `title` are needed, everything else is optional):
 ```js
-brief: [
-  { heading: "The Challenge",   text: "Your text here" },
-  { heading: "Why It Mattered", text: "Your text here" },
-  { heading: "My Approach",     text: ["Bullet one", "Bullet two"] },   // a list = bullet points
-  { heading: "Outcome",         text: "Your text here" },
-],
+{
+  id: "myapp",                         // short name for the direct link: yoursite/#p-myapp
+  category: "Passion Projects",        // which tab it goes in
+  title: "My App",
+  org: "Personal project",             // small line under the title
+  result: "",                          // optional badge, e.g. "Winner"
+  cover: "assets/projects/myapp/cover.webp",   // "" = card shows the title's first letter
+  pdf: "",                             // a deck: "assets/decks/x/deck.pdf". "" = popup shows only the brief
+  links: [{ label: "Visit website", url: "https://..." }],   // optional buttons (delete the line if none)
+  gallery: ["assets/projects/myapp/1.webp", "assets/projects/myapp/2.webp"],   // optional images
+  brief: [
+    { heading: "The Idea", text: "Your text here" },
+    { heading: "What I built", text: ["Bullet one", "Bullet two"] },   // a list = bullet points
+  ],
+},
 ```
-Add a line to add a heading, delete a line to remove one. Headings can be anything.
 
-**To add a new project:**
-1. Export the deck from PowerPoint as PDF (**File → Export → PDF**), keep it under ~10 MB (ilovepdf.com to compress).
-2. Make a folder in `assets/decks/` with a short name (e.g. `newcase`) and put in it: **`deck.pdf`** and a cover image **`cover.webp`** (or `cover.png`).
-3. Copy one existing project block in `content.js` and change `id`, `title`, `org`, `cover`, `pdf` and the `brief`.
+- **With a PDF:** the popup shows the brief on the left and the deck on the right (on phones: Brief / Deck tabs).
+- **Without a PDF:** the brief fills the popup, followed by any link buttons and the gallery. Tapping a gallery image opens it full screen.
 
-Each project also has a direct link, e.g. `bharatmimani.vercel.app/#p-chings` — handy to send an interviewer straight to one project.
+**To add a project:** copy an existing project block (from `{` to `},`), paste it below, and change the values. Put its files in a folder of their own, e.g. `assets/decks/newcase/` (deck.pdf + cover.webp) or `assets/projects/myapp/` (cover + gallery images). Keep PDFs under ~10 MB (ilovepdf.com to compress).
 
-> **Note:** when you open `index.html` straight from your computer, the deck shows a message instead of slides (browsers block PDFs from local files). It works on the live site.
+Direct links still work, e.g. `bharatmimani.vercel.app/#p-chings`, and they open the right tab automatically.
+
+> **Note:** when you open `index.html` straight from your computer, decks show a message instead of slides (browsers block PDFs from local files). They work on the live site.
 
 ---
 
