@@ -29,7 +29,7 @@ window.CONTENT = {
 
   /* ---------- 01 · MBA ---------- */
   mba: {
-    institute: "IMT Hydereabd",
+    institute: "IMT Hyderabad",
     programme: "PGDM",
     specialisation: "Marketing",
     cgpa: "9.25",
@@ -66,7 +66,7 @@ window.CONTENT = {
     ],
     // Work samples: add image paths here when ready, e.g. "assets/work/1.webp",
     // The gallery stays hidden while this list is empty.
-    gallery: [],
+    gallery: ["assets/work/1.webp","assets/work/2.webp","assets/work/3.webp","assets/work/4.webp","assets/work/5.webp"],
   },
 
   /* ---------- 04 · CASE COMPETITIONS ----------
@@ -98,6 +98,18 @@ window.CONTENT = {
       pdf: "assets/decks/tcpl/deck.pdf",
       brief: [
       { heading: "Brief", text: "Ching’s Secret aims to disrupt India’s ₹300cr+ Korean noodle market dominated by imported brands by blending authentic Korean elements with Indian taste and pricing. The case focuses on identifying consumer triggers and market gaps to build a scalable, differentiated GTM strategy in the growing instant noodle segment." },
+    ],
+    },
+    {
+      id: "room",
+      category: "Room",
+      title: "Welcome to my room!",
+      org: "H2,209",
+      result: "",
+      cover: "assets/decks/room/room.webp",
+      pdf: "",
+      brief: [
+      { heading: "", text: "Here is something beyound my resume" },
     ],
     },
     {
