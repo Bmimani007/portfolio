@@ -107,6 +107,7 @@ window.CONTENT = {
       org: "H2,209",
       result: "",
       cover: "assets/decks/room/room.webp",
+      links: [{ label: "Visit website", url: "https://bharatmimani.vercel.app/room.html" }]
       pdf: "",
       brief: [
       { heading: "", text: "Here is something beyound my resume" },
@@ -122,6 +123,18 @@ window.CONTENT = {
       pdf: "assets/decks/gim/deck.pdf",
       brief: [
       { heading: "Brief", text: "The case focuses on building a Goa-specific market entry and visibility strategy for HOCCO Ice Cream during its first full summer, leveraging brand equity in a tourism driven market." },
+    ],
+    },
+        {
+      id: "Skppl",
+      category: "Website",
+      title: "SKPPL website",
+      org: "Shree Krishna Printech Private Limited",
+      result: "",
+      cover: "assets/decks/SKPPL/cover.webp",
+      links: [{ label: "Visit website", url: "https://skppl.tiiny.site/" }]
+      brief: [
+      { heading: "", text: "" },
     ],
     },
     {
