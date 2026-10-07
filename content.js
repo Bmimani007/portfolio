@@ -16,7 +16,7 @@ window.CONTENT = {
   profile: {
     firstName: "Bharat",
     lastName: "Mimani",
-    tagline: "An aspiring professional with a strong interest in business and strategy. Passionate about product management, with a keen interest in solving real world problems through thoughtful product thinking.",
+    tagline: "I designed a process that reduced the work flow time by 90%. Thus, contributing towards operational efficiency",
     email: "bharatmimani@imthyderabad.edu.in",
     linkedin: "https://www.linkedin.com/in/bharat-mimani-03b239250/",
     whatsapp: "918240073060",                       // country code + number, no + or spaces
