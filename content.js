@@ -107,6 +107,7 @@ window.CONTENT = {
       org: "H2,209",
       result: "",
       cover: "assets/decks/room/room.webp",
+      links: [{ label: "Visit website", url: "https://bharatmimani.vercel.app/room.html" }],
       pdf: "",
       brief: [
       { heading: "", text: "Here is something beyound my resume" },
