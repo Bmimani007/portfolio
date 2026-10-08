@@ -16,7 +16,7 @@ window.CONTENT = {
   profile: {
     firstName: "Bharat",
     lastName: "Mimani",
-    tagline: "I designed a process that reduced the work flow time by 90%. Thus, contributing towards operational efficiency",
+    tagline: "I designed a process that reduced the work flow time by 90%. Thus, contributing towards operational efficiency.",
     email: "bharatmimani@imthyderabad.edu.in",
     linkedin: "https://www.linkedin.com/in/bharat-mimani-03b239250/",
     whatsapp: "918240073060",                       // country code + number, no + or spaces
