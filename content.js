@@ -204,7 +204,7 @@ window.CONTENT = {
         { title: "Portfolio", note: "Building this portfolio", status: "In progress" },
       ],
       courses: [
-        { title: "Claude Code for Marketing", provider: "Youtube", progress: 5 },   // progress = % done
+        // { title: "Claude Code for Marketing", provider: "Youtube", progress: 5 },   // progress = % done
         { title: "Product Management", provider: "IBM | Skillup", progress: 30 },
       ],
     },
@@ -214,7 +214,8 @@ window.CONTENT = {
     // favourite: true puts a ★ on it. review can be long; leave an empty line between paragraphs.
     books: {
       reading: [
-        { title: "Sales Mind", author: "Helen Kensett", cover: "assets/Room/books/Sales_mind.webp" },
+        { title: "Never Split the Difference", author: "Chris Voss", cover: "assets/Room/books/NSTD.webp" },
+        // { title: "Sales Mind", author: "Helen Kensett", cover: "assets/Room/books/Sales_mind.webp" },
       ],
       read: [
         { title: "The Journey Home: Autobiography of an American Swami", author: "Radhanath Swami", cover: "assets/Room/books/Journey_home.webp", favourite: true,
@@ -222,7 +223,7 @@ window.CONTENT = {
         { title: "Why Fonts Matter", author: "Sarah Hyndman", cover: "assets/Room/books/WFM.webp", favourite: false, review: `This book opens up the science and the art behind how fonts influence you. It explains why certain fonts or styles evoke particular experiences and associations. Fonts have different personalities that can create trust, mistrust, give you confidence, make things seem easier to do or make a product taste better. They're hidden in plain sight, they trigger memories, associations and multisensory experiences in your imagination.` },
       ],
       wishlist: [
-        { title: "Never Split the Difference", author: "Chris Voss", cover: "assets/Room/books/NSTD.webp" },
+       // { title: "Never Split the Difference", author: "Chris Voss", cover: "assets/Room/books/NSTD.webp" },
       ],
     },
 
