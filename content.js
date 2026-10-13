@@ -50,7 +50,7 @@ window.CONTENT = {
     brief: [
       { heading: "Brief", text: "Worked on a data driven product aimed at helping stakeholders better understand and monitor global steel price movements. Defined the problem by identifying key business variables influencing HRC prices, translated complex market data into actionable insights, and analyzed user relevant metrics across pricing, raw materials, freight, and macroeconomic indicators. Built a Streamlit based interactive dashboard that brought multiple data sources and analytical models into a single decision support interface. Applied forecasting and statistical models to identify trends, dependencies, and potential price movements, with a focus on improving usability, monitoring, and data backed decision making for business stakeholders." },
     ],
-    dashboard: "https://hrcpipeline-tata-bharat.streamlit.app/",
+    // dashboard: "https://hrcpipeline-tata-bharat.streamlit.app/",
   },
 
   /* ---------- 03 · WORK EXPERIENCE ---------- */
