@@ -25,7 +25,7 @@ window.CONTENT = {
   },
 
   // Scrolling strip under the hero
-  tools: ["Microsoft Excel", "PowerPoint", "Adobe Illustrator", "CorelDRAW", "Canva"],
+  tools: ["Microsoft Excel", "PowerPoint", "Adobe Illustrator", "Figma", "CorelDRAW", "Canva"],
 
   /* ---------- 01 · MBA ---------- */
   mba: {
