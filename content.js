@@ -40,7 +40,7 @@ window.CONTENT = {
   /* ---------- 02 · SUMMER INTERNSHIP ---------- */
   internship: {
     company: "Tata Steel",
-    role: "SPA intern",
+    role: "Sales Planning & Administration",
     duration: "Apr–Jun 2026",
     project: "HRC Price Intelligence",
     summary: "Analysis of Global Steel Price Dynamics and Inter-Nation Interdependence along with Investigation of Key Variables Influencing International Steel Market Price Movements",
@@ -55,7 +55,7 @@ window.CONTENT = {
 
   /* ---------- 03 · WORK EXPERIENCE ---------- */
   workex: {
-    company: "SKPPL",
+    company: "Shree Krishna Printech Pvt. Ltd.",
     industry: "Printing & Packaging",
     role: "Designer & Business Development Trainee",
     duration: "2022–2025",
