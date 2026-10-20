@@ -119,8 +119,8 @@ window.CONTENT = {
       title: "The Press Estimator",
       org: "SKPPL",
       result: "",
-      cover: "assets/projects/calculator/cover.webp",
-      links: [{ label: "Open Calculator", url: "assets/projects/calculator/calculator.html" }],
+      cover: "assets/Projects/calculator/cover.webp",
+      links: [{ label: "Open Calculator", url: "assets/Projects/calculator/calculator.html" }],
       pdf: "",
       brief: [
       { heading: "Cost Calculator", text: "Developed a Printing Cost Calculator to simplify and streamline the estimation of printing costs. The tool calculates estimated printing expenses based on key parameters such as page count, print quantity, paper specifications, and other production costs. The project aims to reduce manual calculations, improve cost estimation accuracy, and support faster pricing decisions for customer quotations in the printing and packaging business." },
