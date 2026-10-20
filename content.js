@@ -101,19 +101,6 @@ window.CONTENT = {
     ],
     },
     {
-      id: "room",
-      category: "Room",
-      title: "Welcome to my room!",
-      org: "H2,209",
-      result: "",
-      cover: "assets/decks/room/room.webp",
-      links: [{ label: "Lets have a tour!", url: "https://bharatmimani.vercel.app/room.html" }],
-      pdf: "",
-      brief: [
-      { heading: "", text: "Here is something beyond my resume" },
-    ],
-    },
-    {
       id: "printing cost calculator",
       category: "SKPPL",
       title: "The Press Estimator",
@@ -124,6 +111,19 @@ window.CONTENT = {
       pdf: "",
       brief: [
       { heading: "Cost Calculator", text: "Developed a Printing Cost Calculator to simplify and streamline the estimation of printing costs. The tool calculates estimated printing expenses based on key parameters such as page count, print quantity, paper specifications, and other production costs. The project aims to reduce manual calculations, improve cost estimation accuracy, and support faster pricing decisions for customer quotations in the printing and packaging business." },
+    ],
+    },
+    {
+      id: "room",
+      category: "Room",
+      title: "Welcome to my room!",
+      org: "H2,209",
+      result: "",
+      cover: "assets/decks/room/room.webp",
+      links: [{ label: "Lets have a tour!", url: "https://bharatmimani.vercel.app/room.html" }],
+      pdf: "",
+      brief: [
+      { heading: "", text: "Here is something beyond my resume" },
     ],
     },
     {
