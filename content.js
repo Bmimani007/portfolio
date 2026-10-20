@@ -32,7 +32,7 @@ window.CONTENT = {
     institute: "IMT Hyderabad",
     programme: "PGDM",
     specialisation: "Marketing",
-    cgpa: "9.25",
+    cgpa: "9.1",
     batch: "2025–27",
     summary: "Transformative journey of learning, leadership, and real-world business exposure.",
   },
@@ -110,7 +110,20 @@ window.CONTENT = {
       links: [{ label: "Lets have a tour!", url: "https://bharatmimani.vercel.app/room.html" }],
       pdf: "",
       brief: [
-      { heading: "", text: "Here is something beyound my resume" },
+      { heading: "", text: "Here is something beyond my resume" },
+    ],
+    },
+    {
+      id: "printing cost calculator",
+      category: "SKPPL",
+      title: "The Press Estimator",
+      org: "SKPPL",
+      result: "",
+      cover: "assets/projects/calculator/cover.webp",
+      links: [{ label: "Open Calculator", url: "assets/projects/calculator/calculator.html" }],
+      pdf: "",
+      brief: [
+      { heading: "Cost Calculator", text: "Developed a Printing Cost Calculator to simplify and streamline the estimation of printing costs. The tool calculates estimated printing expenses based on key parameters such as page count, print quantity, paper specifications, and other production costs. The project aims to reduce manual calculations, improve cost estimation accuracy, and support faster pricing decisions for customer quotations in the printing and packaging business." },
     ],
     },
     {
@@ -229,8 +242,7 @@ window.CONTENT = {
 
     // 🖼️ Photo with friends on the side table → photo on the left, quote on the right
     friends: { photo: "assets/Room/friends.webp", quote: `Agar biki teri dosti, toh pehle kharidar hum honge.
-Tujhe pata na hogi teri kimmat, par tujhe paa kar sabse ameer hum honge.
-
+Tujhe pata na hogi teri kimmat, par tujhe paa kar sabse ameer hum honge. 
 Agar tum sath ho toh rone me bhi shaan hai.
 Or tum na ho toh mehfill bhi shamshan hai.
 

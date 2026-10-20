@@ -1,0 +1,347 @@
+<!-- Print Cost Calculator -->
+<style>
+  :root{
+    --ink:#13110e;
+    --paper:#f4efe6;
+    --paper2:#ece4d6;
+    --line:#cdbfa6;
+    --accent:#c0451f;
+    --accent2:#1d6b54;
+    --gold:#b8893b;
+    --muted:#7a6f5d;
+    --field:#fbf8f1;
+    --shadow:rgba(40,30,15,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  #wrap{
+    font-family:"Georgia","Times New Roman",serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(192,69,31,.06), transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(29,107,84,.06), transparent 45%),
+      var(--paper);
+    color:var(--ink);
+    padding:26px 20px 50px;
+    min-height:100%;
+    background-attachment:fixed;
+  }
+  .masthead{
+    border-bottom:3px double var(--ink);
+    padding-bottom:14px;margin-bottom:22px;
+    display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  }
+  .masthead h1{
+    font-size:34px;font-weight:700;letter-spacing:-.5px;line-height:.95;
+    font-family:"Georgia",serif;
+  }
+  .masthead h1 small{display:block;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);font-weight:400;margin-top:6px}
+  .masthead .tag{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);padding:5px 10px;border-radius:2px}
+  .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}.masthead h1{font-size:26px}}
+  .panel{
+    background:var(--field);
+    border:1px solid var(--line);
+    border-radius:4px;
+    box-shadow:0 2px 0 var(--line), 0 8px 24px var(--shadow);
+  }
+  .panel h2{
+    font-size:13px;letter-spacing:2.5px;text-transform:uppercase;
+    background:var(--ink);color:var(--paper);
+    padding:9px 14px;border-radius:3px 3px 0 0;font-weight:600;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .panel h2 span{font-size:10px;color:var(--gold);letter-spacing:1px}
+  .pbody{padding:14px 14px 16px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+  .row.one{grid-template-columns:1fr}
+  .fld label{display:block;font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:3px;font-family:Georgia}
+  .fld input,.fld select{
+    width:100%;padding:8px 9px;font-size:14px;font-family:Georgia,serif;
+    border:1px solid var(--line);border-radius:3px;background:#fff;color:var(--ink);
+  }
+  .fld input:focus,.fld select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(192,69,31,.12)}
+  .hint{font-size:10px;color:var(--muted);margin-top:2px;font-style:italic}
+  .seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+  .seg button{flex:1;padding:8px;border:none;background:#fff;font-family:Georgia,serif;font-size:12.5px;cursor:pointer;color:var(--muted);letter-spacing:.5px}
+  .seg button.on{background:var(--ink);color:var(--paper);font-weight:600}
+  .divider{border:0;border-top:1px dashed var(--line);margin:14px 0 12px}
+  .subhead{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent2);font-weight:700;margin:2px 0 9px}
+
+  /* results */
+  .result-stack{display:flex;flex-direction:column;gap:18px}
+  .verdict{
+    background:linear-gradient(160deg,var(--ink),#2a241b);
+    color:var(--paper);border-radius:5px;padding:18px;position:relative;overflow:hidden;
+    box-shadow:0 10px 30px var(--shadow);
+  }
+  .verdict::after{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;border:1px solid rgba(244,239,230,.12);border-radius:50%}
+  .verdict .lbl{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold)}
+  .verdict .winner{font-size:22px;font-weight:700;margin:6px 0 2px;display:flex;align-items:baseline;gap:10px}
+  .verdict .winner em{font-style:normal;font-size:12px;color:#d9b877;letter-spacing:1px;text-transform:uppercase}
+  .verdict .big{font-size:38px;font-weight:700;letter-spacing:-1px;line-height:1}
+  .verdict .big small{font-size:14px;color:#bdb3a0}
+  .verdict .per{font-size:13px;color:#cfc6b5;margin-top:6px}
+  .verdict .save{margin-top:10px;font-size:12px;background:rgba(184,137,59,.18);border:1px solid rgba(184,137,59,.4);color:#e9cd97;padding:5px 9px;border-radius:3px;display:inline-block;letter-spacing:.5px}
+
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .cobj{border:1px solid var(--line);border-radius:4px;background:#fff;padding:12px;position:relative}
+  .cobj.win{border-color:var(--accent2);box-shadow:0 0 0 1px var(--accent2)}
+  .cobj .ttl{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;display:flex;justify-content:space-between;align-items:center}
+  .cobj .ttl .pill{font-size:8.5px;background:var(--accent2);color:#fff;padding:2px 6px;border-radius:10px;letter-spacing:.5px}
+  .cobj .amt{font-size:26px;font-weight:700;margin:8px 0 1px;letter-spacing:-.5px}
+  .cobj .pu{font-size:11px;color:var(--muted)}
+
+  .breakdown{background:#fff;border:1px solid var(--line);border-radius:4px}
+  .breakdown .bh{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:700;padding:10px 12px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+  .lineitem{display:flex;justify-content:space-between;padding:7px 12px;font-size:13px;border-bottom:1px dotted var(--line)}
+  .lineitem:last-child{border-bottom:none}
+  .lineitem .k{color:var(--ink)}
+  .lineitem .k small{display:block;color:var(--muted);font-size:10px;font-style:italic}
+  .lineitem .v{font-variant-numeric:tabular-nums;font-weight:600}
+  .lineitem.sub{background:var(--paper2);font-weight:700}
+  .lineitem.tot{background:var(--ink);color:var(--paper);font-weight:700;font-size:15px}
+  .lineitem.tot .k{color:var(--paper)}
+  .toggle-bd{font-size:11px;color:var(--accent);cursor:pointer;text-decoration:underline;letter-spacing:.5px}
+  .note{font-size:11px;color:var(--muted);font-style:italic;line-height:1.5;padding:4px 2px}
+  .stamp{display:inline-block;transform:rotate(-4deg);border:2px solid var(--accent);color:var(--accent);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 8px;border-radius:3px;font-weight:700;opacity:.85}
+</style>
+
+<div id="wrap">
+  <div class="masthead">
+    <h1>The Press Estimator<small>Instant quotation engine &middot; offset &amp; digital</small></h1>
+    <div class="tag">Quote in seconds</div>
+  </div>
+
+  <div class="grid">
+    <!-- INPUTS -->
+    <div>
+      <div class="panel" style="margin-bottom:20px">
+        <h2>Job Specification <span>book / magazine</span></h2>
+        <div class="pbody">
+          <div class="row">
+            <div class="fld"><label>Total pages</label><input id="pages" type="number" value="48" min="2" step="2"></div>
+            <div class="fld"><label>Quantity (books)</label><input id="qty" type="number" value="1000" min="1"></div>
+          </div>
+          <div class="row">
+            <div class="fld">
+              <label>Book size</label>
+              <select id="sizeclass"><option value="big">Big (e.g. 8.5×11")</option><option value="small">Small</option></select>
+              <div class="hint">affects binding &amp; lamination rate</div>
+            </div>
+            <div class="fld"><label>Pages per full 23×36 sheet</label><input id="pps" type="number" value="16" min="2" step="2"><div class="hint">16 for 8.5×11, 32 for small</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:20px">
+        <h2>Inner Paper <span>per-kg pricing</span></h2>
+        <div class="pbody">
+          <div class="row">
+            <div class="fld"><label>Sheet length (in)</label><input id="sl" type="number" value="23" step="0.5"></div>
+            <div class="fld"><label>Sheet width (in)</label><input id="sw" type="number" value="36" step="0.5"></div>
+          </div>
+          <div class="row">
+            <div class="fld"><label>GSM</label><input id="gsm" type="number" value="70"></div>
+            <div class="fld"><label>Paper rate (₹/kg)</label><input id="kg" type="number" value="90"></div>
+          </div>
+          <div class="row one">
+            <div class="fld"><label>Wastage allowance (%)</label><input id="waste" type="number" value="5"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:20px">
+        <h2>Printing Method <span>auto-compares both</span></h2>
+        <div class="pbody">
+          <div class="subhead">Offset (inner)</div>
+          <div class="row">
+            <div class="fld"><label>Cost per plate (₹)</label><input id="plate" type="number" value="1500"><div class="hint">incl. printing up to 1000</div></div>
+            <div class="fld"><label>Plates per book</label><input id="platesOut" readonly style="background:var(--paper2);font-weight:700"></div>
+          </div>
+          <hr class="divider">
+          <div class="subhead">Digital (inner)</div>
+          <div class="row one">
+            <div class="fld"><label>Digital cost per 23×36 sheet (₹)</label><input id="digital" type="number" value="6.0"><div class="hint">per sheet, both sides — from your GSM/size list</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-bottom:20px">
+        <h2>Cover <span>printed separately</span></h2>
+        <div class="pbody">
+          <div class="row">
+            <div class="fld"><label>Cover GSM</label><input id="cgsm" type="number" value="250"></div>
+            <div class="fld"><label>Cover paper rate (₹/kg)</label><input id="ckg" type="number" value="95"></div>
+          </div>
+          <div class="row">
+            <div class="fld"><label>Covers per 23×36 sheet</label><input id="cps" type="number" value="8"><div class="hint">8 for 8.5×11</div></div>
+            <div class="fld"><label>4-col offset plate (₹)</label><input id="cplate" type="number" value="2500"></div>
+          </div>
+          <div class="row">
+            <div class="fld"><label>Printed sides</label><select id="csides"><option value="2">Both (×2)</option><option value="1">One (×1)</option></select></div>
+            <div class="fld"><label>Lamination</label><select id="clam"><option value="yes">Yes</option><option value="no">No</option></select></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Finishing &amp; Margin <span>per book</span></h2>
+        <div class="pbody">
+          <div class="row">
+            <div class="fld"><label>Binding type</label><select id="bind"><option value="saddle">Saddle stitch</option><option value="perfect">Perfect</option><option value="none">None</option></select></div>
+            <div class="fld"><label>Binding ₹/book</label><input id="bindrate" type="number" value="0.5" step="0.5"><div class="hint">0.5 small / 1 big (saddle)</div></div>
+          </div>
+          <div class="row">
+            <div class="fld"><label>Lamination ₹/book</label><input id="lamrate" type="number" value="0.5" step="0.5"></div>
+            <div class="fld"><label>Profit margin (%)</label><input id="margin" type="number" value="20"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div>
+      <div class="result-stack" id="results"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var inputs=["pages","qty","sizeclass","pps","sl","sw","gsm","kg","waste",
+    "plate","digital","cgsm","ckg","cps","cplate","csides","clam",
+    "bind","bindrate","lamrate","margin"];
+  var showBd=true;
+
+  function num(id){return parseFloat($(id).value)||0}
+  function rs(n){return "₹"+ (Math.round(n*100)/100).toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+  function rs0(n){return "₹"+ Math.round(n).toLocaleString('en-IN')}
+
+  function sheetWeightKgPerReam(L,W,gsm){ return (L*W*gsm/3100)*500/1000; } // kg per 500 sheets
+
+  function calc(){
+    var pages=num("pages"), qty=num("qty"), pps=num("pps");
+    var L=num("sl"), W=num("sw"), gsm=num("gsm"), kg=num("kg"), waste=num("waste")/100;
+
+    // ---- inner paper ----
+    var reamKg = sheetWeightKgPerReam(L,W,gsm);
+    var reamCost = reamKg*kg;
+    var perSheet = reamCost/500;
+    var sheetsPerBook = pages/pps;          // e.g. 48/16 = 3
+    var paperPerBook = sheetsPerBook*perSheet;
+    var totalSheets = sheetsPerBook*qty*(1+waste);
+    var paperTotal = totalSheets*perSheet;
+
+    // ---- offset inner ----
+    var platesPerBook = sheetsPerBook*2;    // plates = sheets × 2
+    $("platesOut").value = platesPerBook;
+    var plateCost = num("plate");
+    var offsetPrintTotal = platesPerBook*plateCost;   // fixed regardless of qty (up to 1000)
+    var offsetInnerTotal = paperTotal + offsetPrintTotal;
+
+    // ---- digital inner ----
+    var digPerSheet = num("digital");
+    var digitalPrintTotal = totalSheets*digPerSheet;
+    var digitalInnerTotal = paperTotal + digitalPrintTotal;
+
+    // ---- cover (same for both; printed 4-col offset) ----
+    var cgsm=num("cgsm"), ckg=num("ckg"), cps=num("cps"), csides=num("csides"), cplate=num("cplate");
+    var cReamKg = sheetWeightKgPerReam(L,W,cgsm);
+    var cPerSheet = (cReamKg*ckg)/500;
+    var coverSheets = Math.ceil(qty/cps)*(1+waste); // sheets needed for all covers
+    var coverPaper = coverSheets*cPerSheet;
+    var coverPlateTotal = cplate*csides;            // ×2 if both sides
+    var coverTotal = coverPaper + coverPlateTotal;
+
+    // ---- finishing ----
+    var bindTotal = ($("bind").value==="none"?0:num("bindrate"))*qty;
+    var lamTotal = ($("clam").value==="yes"?num("lamrate"):0)*qty;
+
+    var margin=num("margin")/100;
+
+    function buildQuote(innerTotal){
+      var sub = innerTotal + coverTotal + bindTotal + lamTotal;
+      var total = sub*(1+margin);
+      return {sub:sub, total:total, per:total/qty};
+    }
+    var off=buildQuote(offsetInnerTotal);
+    var dig=buildQuote(digitalInnerTotal);
+
+    var offWins = off.total<=dig.total;
+    var best = offWins?off:dig;
+    var worst = offWins?dig:off;
+    var saving = worst.total-best.total;
+
+    render({
+      offWins:offWins, off:off, dig:dig, saving:saving,
+      perSheet:perSheet, reamKg:reamKg, reamCost:reamCost,
+      sheetsPerBook:sheetsPerBook, platesPerBook:platesPerBook,
+      paperTotal:paperTotal, totalSheets:totalSheets,
+      offsetPrintTotal:offsetPrintTotal, digitalPrintTotal:digitalPrintTotal,
+      coverPaper:coverPaper, coverPlateTotal:coverPlateTotal, coverTotal:coverTotal,
+      coverSheets:coverSheets,
+      bindTotal:bindTotal, lamTotal:lamTotal, qty:qty, margin:margin,
+      innerOff:offsetInnerTotal, innerDig:digitalInnerTotal
+    });
+  }
+
+  function render(d){
+    var winName=d.offWins?"Offset":"Digital";
+    var loseName=d.offWins?"Digital":"Offset";
+    var html="";
+
+    html+='<div class="verdict">'+
+      '<div class="lbl">Recommended Quote</div>'+
+      '<div class="winner">'+winName+' <em>cheapest method</em></div>'+
+      '<div class="big">'+rs0(d.offWins?d.off.total:d.dig.total)+' <small>total</small></div>'+
+      '<div class="per">'+rs(d.offWins?d.off.per:d.dig.per)+' per book &middot; '+d.qty+' copies</div>'+
+      (d.saving>0.5?'<div class="save">Saves '+rs0(d.saving)+' vs '+loseName+'</div>':'<div class="save">Both methods nearly identical</div>')+
+    '</div>';
+
+    html+='<div class="compare">'+
+      cobj("Offset",d.off,d.offWins)+
+      cobj("Digital",d.dig,!d.offWins)+
+    '</div>';
+
+    html+='<div class="note">Plate cost is fixed up to ~1000 copies; raise the plate rate above 1000/2000. Digital scales per sheet, so it usually wins at low quantity and loses at high.</div>';
+
+    html+='<div class="breakdown"><div class="bh"><span>Cost Breakdown — '+winName+'</span>'+
+      '<span class="toggle-bd" id="tg">'+(showBd?'hide':'show')+'</span></div>';
+    if(showBd){
+      var innerTotal=d.offWins?d.innerOff:d.innerDig;
+      var printTotal=d.offWins?d.offsetPrintTotal:d.digitalPrintTotal;
+      html+=li("Inner paper","1 ream = "+d.reamKg.toFixed(1)+" kg → "+rs(d.perSheet)+"/sheet × "+Math.round(d.totalSheets)+" sheets",d.paperTotal);
+      html+=li(d.offWins?"Offset printing":"Digital printing",
+        d.offWins?(d.platesPerBook+" plates × plate rate"):(Math.round(d.totalSheets)+" sheets × digital rate"),
+        printTotal);
+      html+=liSub("Inner subtotal",innerTotal);
+      html+=li("Cover paper",d.coverSheets.toFixed(0)+" sheets",d.coverPaper);
+      html+=li("Cover printing","4-col offset plates",d.coverPlateTotal);
+      html+=liSub("Cover subtotal",d.coverTotal);
+      html+=li("Binding",d.qty+" books",d.bindTotal);
+      html+=li("Lamination",d.qty+" books",d.lamTotal);
+      html+=li("Margin",(d.margin*100).toFixed(0)+"% added",(d.offWins?d.off.total-d.off.sub:d.dig.total-d.dig.sub));
+      html+=liTot("Grand total",d.offWins?d.off.total:d.dig.total);
+    }
+    html+='</div>';
+
+    $("results").innerHTML=html;
+    if($("tg"))$("tg").onclick=function(){showBd=!showBd;calc();};
+  }
+
+  function cobj(name,o,win){
+    return '<div class="cobj'+(win?' win':'')+'"><div class="ttl">'+name+(win?'<span class="pill">best</span>':'')+'</div>'+
+      '<div class="amt">'+rs0(o.total)+'</div>'+
+      '<div class="pu">'+rs(o.per)+' / book</div></div>';
+  }
+  function li(k,sub,v){return '<div class="lineitem"><div class="k">'+k+(sub?'<small>'+sub+'</small>':'')+'</div><div class="v">'+rs(v)+'</div></div>';}
+  function liSub(k,v){return '<div class="lineitem sub"><div class="k">'+k+'</div><div class="v">'+rs(v)+'</div></div>';}
+  function liTot(k,v){return '<div class="lineitem tot"><div class="k">'+k+'</div><div class="v">'+rs0(v)+'</div></div>';}
+
+  inputs.forEach(function(id){
+    var el=$(id);
+    if(el){el.addEventListener('input',calc);el.addEventListener('change',calc);}
+  });
+  calc();
+})();
+</script>
