@@ -90,7 +90,7 @@ window.CONTENT = {
   projects: [
     {
       id: "chings",
-      category: "Case Competitions",
+      category: "Product Teardowns",
       title: "Chings Winning in Korean Noodles",
       org: "Tata Consumer Products Ltd.",
       result: "",
@@ -128,7 +128,7 @@ window.CONTENT = {
     },
     {
       id: "hocco",
-      category: "Case Competitions",
+      category: "Product Teardowns",
       title: "HOCCO's Entry into Goa",
       org: "Goa Institute of Management × HOCCO",
       result: "",
@@ -140,7 +140,7 @@ window.CONTENT = {
     },
     {
       id: "runio",
-      category: "Case Competitions",
+      category: "Product Teardowns",
       title: "Run.io",
       org: "Great Lakes Annual Management Fest",
       result: "",
@@ -152,7 +152,7 @@ window.CONTENT = {
     },
     {
       id: "qurkle",
-      category: "Case Competitions",
+      category: "Product Teardowns",
       title: "Qurkle × Mira",
       org: "Markagaon, IMI Delhi",
       result: "",
