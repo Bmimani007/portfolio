@@ -229,11 +229,12 @@ window.CONTENT = {
       //   description = a line or two about how you use it. Text in [square brackets] shows as a grey placeholder.
       //   abbr/color/ink = backup tile (letters, background, letter colour) shown until the logo file exists
       skills: [
-        { name: "Microsoft Excel",   logo: "assets/Room/skills/excel.png",        abbr: "X",  color: "#1d6f42",                  description: "dfknakfn" },
-        { name: "PowerPoint",        logo: "assets/Room/skills/powerpoint.png",   abbr: "P",  color: "#c43e1c",                  description: "i like to apint dfnasjkdf sfhash" },
-        { name: "Adobe Illustrator", logo: "assets/Room/skills/illustrator.png",  abbr: "Ai", color: "#2b1200", ink: "#ff9a00", description: "" },
-        { name: "Figma",             logo: "assets/Room/skills/figma.png",        abbr: "F",  color: "#1e1e1e", ink: "#f24e1e", description: "" },
+        { name: "Microsoft Excel",   logo: "assets/Room/skills/excel.webp",        abbr: "X",  color: "#1d6f42",                  description: "" },
+        { name: "PowerPoint",        logo: "assets/Room/skills/powerpoint.webp",   abbr: "P",  color: "#c43e1c",                  description: "" },
+        { name: "Adobe Illustrator", logo: "assets/Room/skills/illustrator.webp",  abbr: "Ai", color: "#2b1200", ink: "#ff9a00", description: "" },
+        { name: "Figma",             logo: "assets/Room/skills/figma.webp",        abbr: "F",  color: "#1e1e1e", ink: "#f24e1e", description: "" },
         { name: "CorelDRAW",         logo: "assets/Room/skills/coreldraw.png",    abbr: "Cd", color: "#2f9e5b",                  description: "" },
+        { name: "Canva",             logo: "assets/Room/skills/canva.webp",    abbr: "Cv", color: "#2f9e5b",                  description: "" },
       ],
       projects: [
         { title: "Portfolio", note: "Building this portfolio", status: "In progress" },
