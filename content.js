@@ -112,6 +112,18 @@ window.CONTENT = {
     ],
     },
     {
+      id: "irctc",
+      category: "Website Analysis",
+      title: "IRCTC",
+      org: "A trusted utility with a peak hour problem",
+      result: "",
+      cover: "assets/website_analysis/irctc/cover.webp",
+      pdf: "assets/website_analysis/irctc/deck.pdf",
+      brief: [
+      { heading: "Brief", text: "The analysis shows that IRCTC is a highly essential and widely used platform, with nearly 89% of reserved tickets being booked digitally. However, despite its recent redesign, the website still suffers from critical UX issues, particularly during peak traffic. There are four major problems like poor load-time reliability, lack of payment transparency, limited interactivity, and friction caused by security measures. The proposal a virtual waiting room, live payment tracking with refund assurance, smart alternative train suggestions, and regional language support. The overall recommendation is to shift IRCTC from being merely functional to becoming a reliable, user centric public service." },
+    ],
+    },
+    {
       id: "printing cost calculator",
       category: "SKPPL",
       title: "The Press Estimator",
