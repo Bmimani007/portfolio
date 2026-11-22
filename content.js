@@ -30,7 +30,7 @@ window.CONTENT = {
   // ("Bharat Mimani"). When they switch to another tab, the titles in
   // "away" take turns blinking. These are PLACEHOLDERS — change them any time.
   tabTitles: {
-    away: ["Come back!", "I miss you", "Bharat Mimani"],   // 2-3 short titles work best
+    away: ["Hey!", "Hola!", "Bharat Mimani"],   // 2-3 short titles work best
     back: "You came back!",   // shown briefly when they return (use "" to skip)
     backMs: 2000,             // how long "back" shows, in milliseconds
     intervalMs: 1500,         // how fast the titles switch, in milliseconds
