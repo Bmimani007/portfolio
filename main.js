@@ -20,17 +20,8 @@
   var wa = "https://wa.me/" + (P.whatsapp || "") + "?text=" + encodeURIComponent(P.whatsappMessage || "Hi Bharat!");
   var social = [["Email", "mailto:" + P.email], ["LinkedIn", P.linkedin], ["WhatsApp", wa]];
   var hs = $("#heroSocial");
-  social.forEach(function (s) { var li = el("li"); li.innerHTML = '<a href="' + esc(s[1]) + '" target="_blank" rel="noopener">' + s[0] + " ↗</a>"; hs.appendChild(li); });
+  social.forEach(function (s) { var li = el("li"); li.innerHTML = '<a href="' + esc(s[1]) + '" target="_blank" rel="noopener">' + s[0] + "</a>"; hs.appendChild(li); });
 
-  var mq = $("#marquee"), tools = (C.tools || []);
-  var run = tools.map(function (t) { return "<span>" + esc(t) + "</span>"; }).join("");
-  mq.innerHTML = run + run + run + run; // repeated so the loop is seamless
-
-  /* ---------- MBA ---------- */
-  var M = C.mba || {};
-  set("mbaSummary", M.summary);
-  var facts = [["Institute", M.institute], ["Programme", M.programme], ["Specialisation", M.specialisation], ["CGPA", M.cgpa], ["Batch", M.batch]].filter(function (f) { return f[1]; });
-  $("#mbaFacts").innerHTML = facts.map(function (f) { return "<div><dt>" + f[0] + "</dt><dd>" + txt(f[1]) + "</dd></div>"; }).join("");
 
   /* ---------- DECK helpers ---------- */
   var slidesOf = function (folder, count, ext) { var a = []; for (var i = 1; i <= count; i++) a.push(folder + "/" + i + "." + (ext || "webp")); return a; };
@@ -82,7 +73,7 @@
         '<span class="case-title">' + txt(c.title) + "</span>" +
         '<span class="case-org">' + txt(c.org) + "</span>" +
         '<span class="case-foot">' + (c.result ? '<span class="result">' + esc(c.result) + "</span>" : "") +
-          "<span>View project</span><span class=\"arrow\" aria-hidden=\"true\">↗</span></span>" +
+          "<span>View project</span></span>" +
       "</span>";
     b.addEventListener("click", function () { openProject(c); });
     return b;
@@ -154,7 +145,7 @@
     var card = el("div", "li-card");
     var postUrl = e.src.replace("/embed/feed/update/", "/feed/update/").replace(/\?.*$/, "");
     card.innerHTML = '<div class="li-scale"><iframe src="' + esc(e.src) + '" height="' + e.h + '" title="LinkedIn post ' + (i + 1) + '" loading="lazy" allowfullscreen></iframe></div>' +
-      '<a class="li-open" href="' + esc(postUrl) + '" target="_blank" rel="noopener">Read full post ↗</a>';
+      '<a class="li-open" href="' + esc(postUrl) + '" target="_blank" rel="noopener">Read full post</a>';
     track.appendChild(card);
   });
   // shrink each 504px-wide LinkedIn embed to fit the smaller card
@@ -165,7 +156,7 @@
   var follow = el("div", "li-follow");
   follow.innerHTML = '<span class="li-in" aria-hidden="true">in</span><h3>Follow my <em>journey</em></h3>' +
     "<p>Case wins, internship learnings and what I'm building next — posted on LinkedIn.</p>" +
-    '<a class="btn btn-red" href="' + esc(P.linkedin) + '" target="_blank" rel="noopener">Follow on LinkedIn ↗</a>';
+    '<a class="btn btn-red" href="' + esc(P.linkedin) + '" target="_blank" rel="noopener">Follow on LinkedIn</a>';
   track.appendChild(follow);
   var liPrev = $("#liPrev"), liNext = $("#liNext");
   var step = function () { var c = track.firstElementChild; return c ? c.getBoundingClientRect().width + 24 : 400; };
@@ -187,7 +178,7 @@
   var cgd = $("#contactGrid");
   cards.forEach(function (c) {
     var d = el("div", "ccard pre-able");
-    d.innerHTML = '<span class="k">' + c.k + '</span><span class="v">' + esc(c.v) + '</span><span class="row"><a class="btn btn-red btn-sm" href="' + esc(c.href) + '" target="_blank" rel="noopener">' + c.label + " ↗</a>" +
+    d.innerHTML = '<span class="k">' + c.k + '</span><span class="v">' + esc(c.v) + '</span><span class="row"><a class="btn btn-red btn-sm" href="' + esc(c.href) + '" target="_blank" rel="noopener">' + c.label + "</a>" +
       (c.copy ? '<button class="copy" type="button" data-copy="' + esc(c.copy) + '">Copy</button>' : "") + "</span>";
     cgd.appendChild(d);
   });
@@ -274,7 +265,7 @@
   }
   function extrasHTML(p) {
     var h = "", L = linksOf(p), G = (p.gallery || []).filter(function (g) { return g && !isPh(g); });
-    if (L.length) h += '<div class="pm-links">' + L.map(function (l) { return '<a class="btn btn-red btn-sm" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label || "Open link") + ' <span aria-hidden="true">↗</span></a>'; }).join("") + "</div>";
+    if (L.length) h += '<div class="pm-links">' + L.map(function (l) { return '<a class="btn btn-red btn-sm" href="' + esc(l.url) + '" target="_blank" rel="noopener">' + esc(l.label || "Open link") + '</a>'; }).join("") + "</div>";
     if (G.length) h += '<section class="pm-sec"><h4 class="pm-h mono">Gallery</h4><div class="pm-gal">' + G.map(function (g, i) { return '<button type="button" class="pm-gal-item" data-i="' + i + '" aria-label="Open image ' + (i + 1) + '"><img src="' + esc(g) + '" alt="" loading="lazy"></button>'; }).join("") + "</div></section>";
     return h;
   }

@@ -343,12 +343,22 @@
 
   /* ---------- laptop ---------- */
   const lp = R.laptop || {};
-  function openLaptop() { showTab("projects"); }
+  function openLaptop() { showTab("skills"); }
   function showTab(tab) {
     document.querySelectorAll(".lp-tab").forEach((b) => b.classList.toggle("on", b.dataset.tab === tab));
     $("#lpPath").textContent = tab;
     const body = $("#lpBody");
-    if (tab === "projects") {
+    if (tab === "skills") {
+      const list = lp.skills || [];
+      body.innerHTML = list.length
+        ? `<ul class="lp-list">${list.map((s) => `
+            <li class="lp-card skill">
+              <span class="sk-logo"><b style="--c:${esc(s.color || "#555")};--t:${esc(s.ink || "#fff")}">${esc(s.abbr || String(s.name || "").slice(0, 2))}</b>${s.logo ? `<img src="${esc(s.logo)}" alt="${esc(s.name)} logo">` : ""}</span>
+              <div><h4>${t(s.name)}</h4>${s.description ? `<p>${t(s.description)}</p>` : ""}</div></li>`).join("")}</ul>`
+        : `<p class="lp-empty mono">Nothing here yet.</p>`;
+      // if a logo file is missing, drop the broken image so the backup tile shows instead
+      body.querySelectorAll(".sk-logo img").forEach((im) => im.addEventListener("error", () => im.remove()));
+    } else if (tab === "projects") {
       const list = lp.projects || [];
       body.innerHTML = list.length
         ? `<ul class="lp-list">${list.map((p, i) => `
@@ -369,6 +379,13 @@
   }
   document.querySelectorAll(".lp-tab").forEach((b) => b.addEventListener("click", () => showTab(b.dataset.tab)));
   $("#lpClose").addEventListener("click", closeOverlay);
+  // clicking the dark area outside the laptop window also goes back to the study table
+  (function () {
+    const lap = $("#laptop");
+    let downOnBg = false;
+    lap.addEventListener("pointerdown", (e) => { downOnBg = e.target === lap; });
+    lap.addEventListener("click", (e) => { if (e.target === lap && downOnBg) closeOverlay(); downOnBg = false; });
+  })();
 
   /* ---------- friends frame ---------- */
   function openFriends() {

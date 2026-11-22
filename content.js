@@ -25,6 +25,17 @@ window.CONTENT = {
   },
 
   // Scrolling strip under the hero
+  // ---- TAB TITLES (the text on the browser tab) ----------------------
+  // While someone is on your site, the tab shows its normal title
+  // ("Bharat Mimani"). When they switch to another tab, the titles in
+  // "away" take turns blinking. These are PLACEHOLDERS — change them any time.
+  tabTitles: {
+    away: ["Come back!", "I miss you", "Bharat Mimani"],   // 2-3 short titles work best
+    back: "You came back!",   // shown briefly when they return (use "" to skip)
+    backMs: 2000,             // how long "back" shows, in milliseconds
+    intervalMs: 1500,         // how fast the titles switch, in milliseconds
+  },
+
   tools: ["Microsoft Excel", "PowerPoint", "Adobe Illustrator", "Figma", "CorelDRAW"],
 
   /* ---------- 01 · MBA ---------- */
@@ -211,8 +222,19 @@ window.CONTENT = {
     failedPlans: ["Pilot", "Engineer", "Movie director", "VFX artist"],
     failedNote: "Glad I kept looking",                                   // optional last line, e.g. "Glad I kept looking."
 
-    // 💻 Laptop → two tabs
+    // 💻 Laptop → three tabs: Skills, Current projects, Current courses
     laptop: {
+      // Skills tab. One entry per skill; they list top to bottom in this order.
+      //   logo        = path to the ORIGINAL logo image, e.g. "assets/Room/skills/excel.png" (png / svg / webp, square-ish works best)
+      //   description = a line or two about how you use it. Text in [square brackets] shows as a grey placeholder.
+      //   abbr/color/ink = backup tile (letters, background, letter colour) shown until the logo file exists
+      skills: [
+        { name: "Microsoft Excel",   logo: "assets/Room/skills/excel.png",        abbr: "X",  color: "#1d6f42",                  description: "dfknakfn" },
+        { name: "PowerPoint",        logo: "assets/Room/skills/powerpoint.png",   abbr: "P",  color: "#c43e1c",                  description: "i like to apint dfnasjkdf sfhash" },
+        { name: "Adobe Illustrator", logo: "assets/Room/skills/illustrator.png",  abbr: "Ai", color: "#2b1200", ink: "#ff9a00", description: "" },
+        { name: "Figma",             logo: "assets/Room/skills/figma.png",        abbr: "F",  color: "#1e1e1e", ink: "#f24e1e", description: "" },
+        { name: "CorelDRAW",         logo: "assets/Room/skills/coreldraw.png",    abbr: "Cd", color: "#2f9e5b",                  description: "" },
+      ],
       projects: [
         { title: "Portfolio", note: "Building this portfolio", status: "In progress" },
       ],
